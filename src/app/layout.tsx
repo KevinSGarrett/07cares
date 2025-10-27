@@ -1,18 +1,19 @@
-﻿import { ClerkProvider } from "@clerk/nextjs";
-import React from "react";
-// If your starter has a global stylesheet, uncomment the next line
-// import "./globals.css";
+import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { GBProvider } from "@/lib/growthbook";
 
 export const metadata = {
-  title: "07.Cares",
-  description: "Crowdfunding for good",
+  title: "Fundraise",
+  description: "Campaigns & donations",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>{children}</body>
+        <body className="min-h-screen bg-white">
+          <GBProvider>{children}</GBProvider>
+        </body>
       </html>
     </ClerkProvider>
   );

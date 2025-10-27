@@ -1,10 +1,12 @@
-﻿import { NextResponse } from "next/server";
-export const dynamic = "force-dynamic";
+import { prisma } from "@/server/db";
 
 export async function GET() {
-  return NextResponse.json({
-    ok: true,
-    service: "07.Cares",
-    ts: new Date().toISOString(),
-  });
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    return new Response(JSON.stringify({ ok: true, ts: Date.now() }), {
+      headers: { "content-type": "application/json" },
+    });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ ok: false, error: String(e) }), { status: 500 });
+  }
 }

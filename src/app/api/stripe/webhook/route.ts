@@ -23,7 +23,6 @@ export async function POST(req: Request) {
       const campaignId = pi.metadata?.campaignId as string | undefined;
       if (campaignId) {
         const amountCents = pi.amount_received as number;
-        // TODO: attach real donorId based on session/metadata
         const fallbackUser = await prisma.user.upsert({
           where: { email: "anon@example.com" },
           create: { email: "anon@example.com", clerkId: "anon", displayName: "Anonymous" },

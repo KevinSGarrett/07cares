@@ -1,39 +1,28 @@
-# Fundraise Starter (Next.js + TS)
+# Fundraise Starter — Extended
 
-This starter is pre-wired to the stack we planned: Next.js (App Router), Prisma/Postgres, Clerk, Stripe, Cloudinary, Mux, Typesense, Pusher, Postmark, Twilio, GrowthBook, Tailwind.
+Pre-wired Next.js (App Router) + TypeScript + Prisma/Postgres + Clerk + Stripe (Payments/Connect) + Cloudinary + Mux + Typesense + Pusher + Postmark + Twilio + GrowthBook + Tailwind **with**:
+
+- Prisma seed script
+- Vitest + coverage gate (80% statements)
+- Playwright e2e smoke test
+- DangerJS PR checks
+- semantic-release (auto changelog & GitHub releases)
 
 ## Quickstart
 
 ```bash
 pnpm install
-cp .env.example .env.local   # fill keys
+cp .env.example .env.local
 pnpm prisma:push
+pnpm seed
 pnpm dev
 ```
 
-Open http://localhost:3000
+## Scripts
 
-## What's included
+- `pnpm test` — unit tests with coverage (Vitest)
+- `pnpm e2e` — Playwright tests
+- `pnpm seed` — seed DB with demo user + example campaign
+- `pnpm release` — semantic-release (run in CI)
 
-- App Router layout with Clerk provider
-- Public campaign page stub: `/c/[slug]`
-- Portal stub: `/portal` (auth protected)
-- Admin stub: `/admin` (react-admin mount)
-- API routes:
-  - `POST /api/donate/create-intent` — Stripe PaymentIntent creator
-  - `POST /api/stripe/webhook` — handles payment events
-  - `POST /api/stripe/connect/onboard` — Connect Express onboarding link
-  - `POST /api/cloudinary/sign` — signed image upload helper
-  - `POST /api/dm/send` — Pusher message trigger
-  - `POST /api/search/index-campaign` — Typesense upsert example
-  - `GET|POST /api/trigger` — Trigger.dev handler entry
-- Libs for Stripe, Pusher, Typesense, Cloudinary, Mux, Postmark, Twilio, GrowthBook
-- Prisma models: User, Campaign, Donation (extend per spec)
-
-## Next steps
-
-- Expand Prisma schema to match Sections 12/14 (RewardTier, RewardClaim, Team, Payout, Ledger).
-- Attach actual donor user ID in `payment_intent.succeeded` handler.
-- Implement Connect payout scheduler (Trigger.dev).
-- Add media moderation, search facets UI, admin endpoints + RBAC (CASL).
-- Wire transactional templates (Postmark) and SMS quiet hours (Twilio).
+See `.github/workflows` for CI, E2E, and Release pipelines.
