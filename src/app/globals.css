@@ -1,6 +1,2 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root { color-scheme: light; }
-body { @apply antialiased text-gray-900; }
+﻿@import "tailwindcss";
+/* add any global styles below */

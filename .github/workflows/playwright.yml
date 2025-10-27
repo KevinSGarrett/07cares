@@ -1,4 +1,5 @@
 name: E2E
+
 on:
   pull_request:
   workflow_dispatch:
@@ -6,6 +7,52 @@ on:
 jobs:
   e2e:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: fundraise
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/fundraise
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_dummy
+      CLERK_SECRET_KEY: sk_test_dummy
+      STRIPE_SECRET_KEY: sk_test_dummy
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: pk_test_dummy
+      STRIPE_WEBHOOK_SECRET: whsec_dummy
+      STRIPE_CONNECT_WEBHOOK_SECRET: whsec_dummy
+      CLOUDINARY_CLOUD_NAME: demo
+      CLOUDINARY_API_KEY: demo
+      CLOUDINARY_API_SECRET: demo
+      MUX_TOKEN_ID: demo
+      MUX_TOKEN_SECRET: demo
+      TYPESENSE_HOST: localhost
+      TYPESENSE_PROTOCOL: http
+      TYPESENSE_PORT: 8108
+      TYPESENSE_API_KEY: xyz
+      PUSHER_APP_ID: "1111"
+      PUSHER_KEY: key
+      PUSHER_SECRET: secret
+      PUSHER_CLUSTER: us2
+      NEXT_PUBLIC_PUSHER_KEY: key
+      NEXT_PUBLIC_PUSHER_CLUSTER: us2
+      POSTMARK_SERVER_TOKEN: dummy
+      TWILIO_ACCOUNT_SID: AC_dummy
+      TWILIO_AUTH_TOKEN: dummy
+      TWILIO_MESSAGING_SERVICE_SID: MG_dummy
+      NEXT_PUBLIC_GROWTHBOOK_CLIENT_KEY: gb_dummy
+      GROWTHBOOK_API_HOST: https://cdn.growthbook.io
+
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
@@ -13,11 +60,18 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20, cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
+      - name: Generate Prisma client & push schema
+        run: |
+          pnpm prisma:generate
+          pnpm prisma:push
+          pnpm seed
       - name: Install Playwright
         run: pnpm exec playwright install --with-deps || true
       - name: Build
         run: pnpm build
       - name: Start server
         run: pnpm start &
+      - name: Wait for server
+        run: pnpm dlx wait-on http://localhost:3000
       - name: Run e2e tests
-        run: pnpm exec playwright test --reporter=github
+        run: pnpm e2e

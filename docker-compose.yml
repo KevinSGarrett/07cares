@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: fundraise_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: fundraise
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  typesense:
+    image: typesense/typesense:0.25.2
+    container_name: fundraise_typesense
+    restart: unless-stopped
+    environment:
+      TYPESENSE_API_KEY: ${TYPESENSE_API_KEY:-xyz}
+      TYPESENSE_DATA_DIR: /data
+    command: >
+      --data-dir /data
+      --api-key ${TYPESENSE_API_KEY:-xyz}
+      --listen-port 8108
+      --enable-cors
+    ports:
+      - "8108:8108"
+    volumes:
+      - typesense-data:/data
+
+volumes:
+  pgdata:
+  typesense-data:
