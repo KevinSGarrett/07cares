@@ -1,0 +1,9 @@
+# CODEOWNERS
+# Update GitHub handles or teams to match your org
+/src/app/api/* @agent-backend @agent-qa
+/src/server/*   @agent-backend @agent-qa
+/src/lib/*      @agent-backend
+/src/app/*      @agent-frontend @agent-qa
+/prisma/*       @agent-backend
+/.github/*      @agent-pm
+/docs/*         @agent-qa @agent-pm

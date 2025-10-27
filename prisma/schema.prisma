@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  clerkId     String   @unique
+  email       String   @unique
+  displayName String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  campaigns   Campaign[]
+  donations   Donation[]
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  city        String
+  state       String
+  goalCents   Int
+  coverUrl    String
+  status      String   // draft|live|ended|not_funded|suspended
+  isAon       Boolean  @default(false)
+  startDate   DateTime
+  endDate     DateTime
+  organizerId String
+  organizer   User     @relation(fields: [organizerId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  donations   Donation[]
+}
+
+model Donation {
+  id          String   @id @default(cuid())
+  campaignId  String
+  donorId     String
+  amountCents Int
+  tipCents    Int       @default(0)
+  isAnonymous Boolean   @default(false)
+  hideName    Boolean   @default(true)
+  intentId    String?
+  createdAt   DateTime  @default(now())
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  donor       User      @relation(fields: [donorId], references: [id])
+}

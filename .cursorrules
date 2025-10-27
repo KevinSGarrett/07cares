@@ -1,0 +1,30 @@
+# Cursor Rules — Project Operating Contract
+# These rules guide all 4 agents. Keep PRs small, tested, and documented.
+
+## General
+- Follow our blueprint (Sections 0–25). If unclear, search the /docs folder and /logs before coding.
+- Never commit secrets or API keys. Use environment variables and AWS Secrets Manager.
+- Prefer existing modules/plugins per /docs/ARCH/0001-stack-choice.md.
+- Write tests before or with features. Maintain coverage ≥ 80% lines on touched packages.
+- Every PR must include: tests, docs update, and a changelog line.
+- Use Conventional Commits: feat:, fix:, docs:, chore:, refactor:, test:, ci:, perf:.
+- Accept CI gates: typecheck, lint, unit, integration, e2e (when affected), a11y snapshots.
+
+## Collaboration
+- Each agent updates /logs/daily/YYYY-MM-DD-<agent>.md with: What I did, Issues, Solutions, Decisions, TODO.
+- If you change folder structure or contracts, add an ADR under /docs/ARCH (numbered).
+
+## Code style
+- TypeScript strict mode; no any unless justified.
+- Server code goes in /src/app/api and /src/server; shared types in /src/types.
+- Do not skip error handling for external calls (Stripe/Clerk/etc.).
+
+## Security & PII
+- Do not log PII or payment data. Mask last-4 where needed. Use request IDs in logs.
+- Run npm audit and fix high severity issues before merge.
+
+## Definition of Done (DoD)
+- Feature works end-to-end in local and CI previews.
+- Tests pass, coverage on new/changed files ≥ 80%.
+- Docs updated (KB or /docs). PR description includes screenshots for UI.
+- Observability: add log lines and metrics counters where appropriate.
