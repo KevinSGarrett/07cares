@@ -1,11 +1,15 @@
-import { test, expect } from "@playwright/test";
+﻿import { test, expect } from "@playwright/test";
 
-test("home page loads", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.getByText("Fundraise Starter")).toBeVisible();
+const BASE = process.env.BASE_URL || "http://localhost:3000";
+
+test("home page renders H1", async ({ page }) => {
+  await page.goto(BASE + "/");
+  await expect(page.getByRole("heading", { name: "07.Cares", level: 1 })).toBeVisible();
 });
 
-test("campaign page loads with progress module", async ({ page }) => {
-  await page.goto("/c/example-campaign");
-  await expect(page.getByText(/Goal:/)).toBeVisible();
+test("health endpoint returns ok", async ({ request }) => {
+  const res = await request.get(BASE + "/api/health");
+  expect(res.status()).toBe(200);
+  const data = await res.json();
+  expect(data?.ok).toBe(true);
 });

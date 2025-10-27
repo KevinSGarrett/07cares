@@ -1,12 +1,14 @@
-import { defineConfig } from "@playwright/test";
+﻿import { defineConfig } from "@playwright/test";
+
+const baseURL = process.env.BASE_URL || "http://localhost:3000";
 
 export default defineConfig({
   testDir: "e2e",
+  testMatch: /.*\.spec\.ts/,
+  retries: 0,
+  reporter: [["list"]],
   use: {
-    baseURL: process.env.BASE_URL || "http://localhost:3000",
-    headless: true,
+    baseURL,
+    trace: "on-first-retry",
   },
-  webServer: [
-    // Managed by CI steps; this config is optional for local runs
-  ],
 });
