@@ -1,49 +1,67 @@
 name: Deploy (Amplify)
+
 on:
   push:
     branches: [ main ]
   workflow_dispatch: {}
+
 permissions:
   id-token: write
   contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - name: Trigger Amplify build (RELEASE)
+
+      # Start a RELEASE job and capture jobId directly from the response
+      - name: Start Amplify RELEASE and capture jobId
+        id: start
+        shell: bash
         run: |
-          aws amplify start-job \
+          set -euo pipefail
+          JOB_ID=$(aws amplify start-job \
             --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
             --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
             --job-type RELEASE \
-            --job-reason "GitHub Actions deploy $(date -Is)"
+            --job-reason "GitHub Actions deploy $(date -Is)" \
+            --query 'jobSummary.jobId' \
+            --output text | tr -d '\r\n')
+          if [ -z "$JOB_ID" ]; then
+            echo "ERROR: Could not extract jobId from start-job response"
+            exit 1
+          fi
+          echo "Started Amplify jobId: $JOB_ID"
+          echo "job_id=$JOB_ID" >> "$GITHUB_OUTPUT"
+
       - name: Wait for Amplify job to finish
+        shell: bash
         run: |
-          JOB_ID=$(aws amplify list-jobs \
-            --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
-            --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
-            --max-items 1 \
-            --query 'jobSummaries[0].jobId' \
-            --output text)
+          set -euo pipefail
+          JOB_ID="${{ steps.start.outputs.job_id }}"
           echo "Waiting for Amplify job: $JOB_ID"
+          # Poll up to ~20 minutes (60 * 20s)
           for i in {1..60}; do
             STATUS=$(aws amplify get-job \
               --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
               --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
               --job-id "$JOB_ID" \
               --query 'job.summary.status' \
-              --output text)
-            echo "Status: $STATUS"
-            if [ "$STATUS" = "SUCCEED" ]; then exit 0; fi
-            if [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CANCELLED" ]; then exit 1; fi
-            sleep 20
+              --output text | tr -d '\r\n')
+            echo "Status: ${STATUS:-None}"
+            case "$STATUS" in
+              SUCCEED) echo "Amplify job SUCCEED"; exit 0 ;;
+              FAILED|CANCELLED) echo "Amplify job $STATUS"; exit 1 ;;
+              *) sleep 20 ;;
+            esac
           done
           echo "Timed out waiting for Amplify job"
           exit 1
