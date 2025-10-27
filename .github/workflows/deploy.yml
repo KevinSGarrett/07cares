@@ -1,0 +1,56 @@
+﻿name: Deploy (Amplify)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Trigger Amplify build (RELEASE)
+        run: |
+          aws amplify start-job \
+            --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
+            --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
+            --job-type RELEASE \
+            --job-reason "GitHub Actions deploy $(date -Is)"
+
+      - name: Wait for Amplify job to finish
+        run: |
+          JOB_ID=$(aws amplify list-jobs \
+            --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
+            --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
+            --max-items 1 \
+            --query 'jobSummaries[0].jobId' \
+            --output text)
+
+          echo "Waiting for Amplify job: $JOB_ID"
+          for i in {1..60}; do
+            STATUS=$(aws amplify get-job \
+              --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
+              --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
+              --job-id "$JOB_ID" \
+              --query 'job.summary.status' \
+              --output text)
+            echo "Status: $STATUS"
+            if [ "$STATUS" = "SUCCEED" ]; then exit 0; fi
+            if [ "$STATUS" = "FAILED" ] || [ "$STATUS" = "CANCELLED" ]; then exit 1; fi
+            sleep 20
+          done
+          echo "Timed out waiting for Amplify job"
+          exit 1
