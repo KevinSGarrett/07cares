@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "scripts": { "test": "vitest run --coverage", 
+  "scripts": {
+    "test": "vitest run --coverage",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -11,10 +12,16 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.34.0",
+    "@prisma/client": "^6.18.0",
+    "@t3-oss/env-nextjs": "^0.13.8",
     "next": "^16.0.0",
+    "pusher": "^5.2.0",
     "pusher-js": "^8.4.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "stripe": "^19.1.0",
+    "typesense": "^2.1.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/node": "24.9.1",
@@ -27,4 +34,3 @@
   },
   "license": "UNLICENSED"
 }
-
