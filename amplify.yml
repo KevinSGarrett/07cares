@@ -3,15 +3,27 @@ frontend:
   phases:
     preBuild:
       commands:
+        - set -euo pipefail
+        - echo "Node version: $(node -v || true)"
+        - echo "NPM version:  $(npm -v || true)"
         - corepack enable
         - corepack prepare pnpm@latest --activate
+        - echo "pnpm version: $(pnpm -v || true)"
+        # Validate required envs (fail early if missing)
+        - test -n "$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" || (echo "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" && exit 1)
+        - test -n "$CLERK_SECRET_KEY" || (echo "Missing CLERK_SECRET_KEY" && exit 1)
+        - test -n "$STRIPE_SECRET_KEY" || (echo "Missing STRIPE_SECRET_KEY" && exit 1)
+        - test -n "$DATABASE_URL" || (echo "Missing DATABASE_URL" && exit 1)
         - pnpm install
     build:
       commands:
+        # If you hit OOM, uncomment the next line:
+        # - export NODE_OPTIONS="--max_old_space_size=4096"
         - pnpm build
   artifacts:
     baseDirectory: .next
-    files: ['**/*']
+    files:
+      - '**/*'
   cache:
     paths:
       - node_modules/**/*
