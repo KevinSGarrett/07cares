@@ -93,8 +93,18 @@ jobs:
           GROWTHBOOK_API_HOST=https://cdn.growthbook.io
           EOF
 
-          # mirror for any tools that read .env.local
           cp .env .env.local
+
+      # pnpm v10 blocks some postinstall scripts; rebuild key packages & generate Prisma client
+      - name: Rebuild blocked script packages (pnpm v10)
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm rebuild @prisma/client @prisma/engines esbuild prisma sharp unrs-resolver || true
+
+      - name: Generate Prisma client
+        shell: bash
+        run: pnpm prisma:generate
 
       - name: Typecheck (optional)
         if: hashFiles('tsconfig.json') != ''
