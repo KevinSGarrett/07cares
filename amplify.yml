@@ -8,18 +8,15 @@ frontend:
         - 'echo "Node version: $(node -v 2>/dev/null || true)"'
         - 'echo "NPM version:  $(npm -v  2>/dev/null || true)"'
         - 'echo "pnpm version: $(pnpm -v 2>/dev/null || true)"'
-        # Fail early if required envs are missing
         - '[ -n "$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" ] || { echo "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"; exit 1; }'
         - '[ -n "$CLERK_SECRET_KEY" ] || { echo "Missing CLERK_SECRET_KEY"; exit 1; }'
         - '[ -n "$STRIPE_SECRET_KEY" ] || { echo "Missing STRIPE_SECRET_KEY"; exit 1; }'
         - '[ -n "$DATABASE_URL" ] || { echo "Missing DATABASE_URL"; exit 1; }'
         - 'pnpm install'
-    
-        - 'echo \"diagnostic: search/index-campaign/route.ts (first 40 lines)\"'
-        - 'head -n 40 ./src/app/api/search/index-campaign/route.ts || true'build:
+        - 'echo "diagnostic: search/index-campaign/route.ts (first 40 lines)"'
+        - 'head -n 40 ./src/app/api/search/index-campaign/route.ts || true'
+    build:
       commands:
-        # If you hit OOM, uncomment the next line:
-        # - 'export NODE_OPTIONS="--max_old_space_size=4096"'
         - 'pnpm build'
   artifacts:
     baseDirectory: .next
@@ -29,4 +26,3 @@ frontend:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
-
