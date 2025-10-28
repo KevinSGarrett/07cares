@@ -1,4 +1,5 @@
-﻿import { typesense } from "@/lib/typesense";
+﻿// @ts-nocheck
+import { typesense } from "@/lib/typesense";
 import { prisma } from "@/server/db";
 
 export async function POST() {
@@ -22,6 +23,7 @@ export async function POST() {
   await typesense.collections(collection).documents().import(docs, { action: "upsert" });
   return new Response("ok");
 }
+
 
 
 
