@@ -1,8 +1,14 @@
+// src/server/db.ts
 import { PrismaClient } from "@prisma/client";
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+// Prevent multiple PrismaClient instances during dev HMR
+declare global {
+  // eslint-disable-next-line no-var
+  var __prisma: PrismaClient | undefined;
+}
 
-export const prisma =
-  globalForPrisma.prisma ?? new PrismaClient({ log: ["error", "warn"] });
+export const prisma = globalThis.__prisma ?? new PrismaClient({ log: ["error", "warn"] });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") {
+  globalThis.__prisma = prisma;
+}

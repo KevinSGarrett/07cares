@@ -1,21 +1,26 @@
-﻿import { authMiddleware } from "@clerk/nextjs";
+﻿// src/middleware.ts
+import { NextResponse } from "next/server";
+import { clerkMiddleware } from "@clerk/nextjs/server";
 
 /**
- * Allow unauthenticated access to health and any other public endpoints.
- * Add more public routes as your app requires.
+ * Local dev bypass:
+ * If AUTH_BYPASS=true, do NOT run Clerk middleware at all.
+ * Staging/prod: leave AUTH_BYPASS unset/false and Clerk will protect routes.
  */
-export default authMiddleware({
-  publicRoutes: [
-    "/api/health",
-  ],
-});
+const BYPASS = process.env.AUTH_BYPASS === "true";
 
-/**
- * Run for app routes, but skip Next internals and static assets.
- * This prevents middleware from running on _next/ and files with extensions.
- */
+// No-op for local bypass
+const noop = () => NextResponse.next();
+
+// Export handler: bypass locally, otherwise use Clerk on protected routes
+export default BYPASS
+  ? noop
+  : clerkMiddleware({
+      // Public routes that stay open even when Clerk is enabled
+      publicRoutes: ["/api/health"],
+    });
+
+// MUST be a static literal for Next 16 to statically analyze
 export const config = {
-  matcher: [
-    "/((?!_next/|favicon\\.ico|robots\\.txt|sitemap\\.xml|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|css|js|map)).*)",
-  ],
+  matcher: ["/portal/:path*", "/admin/:path*"],
 };
