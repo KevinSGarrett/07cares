@@ -1,6 +1,6 @@
-﻿// src/app/api/db/ping/route.ts
+// src/app/api/db/ping/route.ts
 import { NextResponse } from "next/server";
-import { prisma } from "@/server/db";
+import { prisma } from "../../../../server/db";
 
 export const dynamic = "force-dynamic";
 
