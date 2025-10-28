@@ -1,24 +1,22 @@
-// src/app/api/db/ping/route.ts
+﻿// src/app/api/db/ping/route.ts
 import { NextResponse } from "next/server";
-import { prisma } from "../../../../server/db";
+import { getDbUrl } from "@/lib/getDbUrl";
 
-export const dynamic = "force-dynamic";`r`nexport const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function GET() {
-  const env = {
-    AUTH_BYPASS: process.env.AUTH_BYPASS || "",
-    DB_PRESENT: !!process.env.DATABASE_URL,
-    DB_HOST: (process.env.DATABASE_URL || "").split("@")[1]?.split("/")[0] || "",
-  };
-
   try {
+    const url = await getDbUrl();
+    // Ensure Prisma sees DATABASE_URL before client load
+    (globalThis as any).process = (globalThis as any).process || {};
+    process.env.DATABASE_URL = url;
+
+    const { PrismaClient } = await import("@prisma/client");
+    const prisma = new PrismaClient();
     await prisma.$queryRawUnsafe("SELECT 1");
-    return NextResponse.json({ ok: true, db: "up", env }, { status: 200 });
+    return NextResponse.json({ ok: true, db: "up" }, { status: 200 });
   } catch (err: any) {
-    return NextResponse.json(
-      { ok: false, db: "error", error: String(err?.message || err), env },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: false, db: "error", error: String(err?.message || err) }, { status: 500 });
   }
 }
-
