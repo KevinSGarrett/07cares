@@ -15,8 +15,6 @@ frontend:
         - 'pnpm config set ignore-scripts false'
         - 'pnpm install'
         - 'pnpm dlx prisma generate'
-        - 'echo "diagnostic: search/index-campaign/route.ts (first 40 lines)"'
-        - 'head -n 40 ./src/app/api/search/index-campaign/route.ts || true'
     build:
       commands:
         - 'pnpm build'
@@ -28,3 +26,4 @@ frontend:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
+
