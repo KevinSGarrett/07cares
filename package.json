@@ -1,9 +1,9 @@
-{
+﻿{
   "name": "07cares",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "scripts": {
+  "scripts": { "test": "vitest run --coverage", 
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -27,3 +27,4 @@
   },
   "license": "UNLICENSED"
 }
+
