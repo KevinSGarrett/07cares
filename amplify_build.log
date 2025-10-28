@@ -1,9 +1,138 @@
-2025-10-28T01:15:43.388Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
-2025-10-28T01:15:43.884Z [INFO]: # Cloning repository: git@github.com:KevinSGarrett/07cares.git
-2025-10-28T01:15:44.565Z [INFO]: 
-2025-10-28T01:15:44.565Z [INFO]: Cloning into '07cares'...
-2025-10-28T01:15:44.566Z [INFO]: # Checking for Git submodules at: /codebuild/output/src2592441521/src/07cares/.gitmodules
-2025-10-28T01:15:44.568Z [ERROR]: !!! CustomerError: Invalid configuration file found in repository: Unexpected token ﻿ in JSON at position 0
-2025-10-28T01:15:44.568Z [INFO]: # Starting environment caching...
-2025-10-28T01:15:44.569Z [INFO]: # Environment caching completed
+2025-10-28T01:41:41.784Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2025-10-28T01:41:42.240Z [INFO]: # Cloning repository: git@github.com:KevinSGarrett/07cares.git
+2025-10-28T01:41:42.857Z [INFO]: 
+2025-10-28T01:41:42.857Z [INFO]: Cloning into '07cares'...
+2025-10-28T01:41:42.858Z [INFO]: # Checking for Git submodules at: /codebuild/output/src788237947/src/07cares/.gitmodules
+2025-10-28T01:41:42.867Z [INFO]: # Retrieving environment cache...
+2025-10-28T01:41:42.912Z [WARNING]: ! Unable to write cache: {"code":"ERR_BAD_REQUEST","message":"Request failed with status code 404"})}
+2025-10-28T01:41:42.912Z [INFO]: ---- Setting Up SSM Secrets ----
+2025-10-28T01:41:42.912Z [INFO]: SSM params {"Path":"/amplify/d3ru1wmw4mnh7w/main/","WithDecryption":true}
+2025-10-28T01:41:42.965Z [WARNING]: !Failed to set up process.env.secrets
+2025-10-28T01:41:43.782Z [INFO]: # No package override configuration found.
+2025-10-28T01:41:43.786Z [INFO]: # Retrieving cache...
+2025-10-28T01:41:43.835Z [INFO]: # Retrieved cache
+2025-10-28T01:41:49.016Z [INFO]: ## Starting Backend Build
+                                 ## Checking for associated backend environment...
+                                 ## No backend environment association found, continuing...
+                                 ## Completed Backend Build
+2025-10-28T01:41:49.022Z [INFO]: {"backendDuration": 0}
+                                 ## Starting Frontend Build
+                                 # Starting phase: preBuild
+                                 # Executing command: corepack enable
+2025-10-28T01:41:51.014Z [INFO]: # Executing command: corepack prepare pnpm@latest --activate
+2025-10-28T01:41:51.594Z [INFO]: Preparing pnpm@latest for immediate activation...
+2025-10-28T01:41:52.159Z [INFO]: # Executing command: echo "Node version: $(node -v 2>/dev/null || true)"
+2025-10-28T01:41:52.165Z [INFO]: Node version: v22.18.0
+2025-10-28T01:41:52.166Z [INFO]: # Executing command: echo "NPM version:  $(npm -v  2>/dev/null || true)"
+2025-10-28T01:41:56.258Z [INFO]: NPM version:  10.9.3
+2025-10-28T01:41:56.262Z [INFO]: # Executing command: echo "pnpm version: $(pnpm -v 2>/dev/null || true)"
+2025-10-28T01:41:56.945Z [INFO]: pnpm version: 10.19.0
+2025-10-28T01:41:56.945Z [INFO]: # Executing command: [ -n "$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" ] || { echo "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"; exit 1; }
+                                 # Executing command: [ -n "$CLERK_SECRET_KEY" ] || { echo "Missing CLERK_SECRET_KEY"; exit 1; }
+                                 # Executing command: [ -n "$STRIPE_SECRET_KEY" ] || { echo "Missing STRIPE_SECRET_KEY"; exit 1; }
+                                 # Executing command: [ -n "$DATABASE_URL" ] || { echo "Missing DATABASE_URL"; exit 1; }
+                                 # Executing command: pnpm install
+2025-10-28T01:41:57.388Z [INFO]: Lockfile is up to date, resolution step is skipped
+2025-10-28T01:41:57.431Z [INFO]: Progress: resolved 1, reused 0, downloaded 0, added 0
+2025-10-28T01:41:57.515Z [INFO]: Packages: +384
+                                 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2025-10-28T01:41:58.434Z [INFO]: Progress: resolved 384, reused 0, downloaded 72, added 68
+2025-10-28T01:41:59.444Z [INFO]: Progress: resolved 384, reused 0, downloaded 124, added 109
+2025-10-28T01:42:00.453Z [INFO]: Progress: resolved 384, reused 0, downloaded 239, added 233
+2025-10-28T01:42:01.454Z [INFO]: Progress: resolved 384, reused 0, downloaded 328, added 327
+2025-10-28T01:42:02.158Z [INFO]: Progress: resolved 384, reused 0, downloaded 384, added 384, done
+2025-10-28T01:42:02.445Z [INFO]: dependencies:
+                                 + @clerk/nextjs 6.34.0
+                                 + @prisma/client 6.18.0
+                                 + @t3-oss/env-nextjs 0.13.8
+                                 + next 16.0.0
+                                 + pusher 5.2.0
+                                 + pusher-js 8.4.0
+                                 + react 19.2.0
+                                 + react-dom 19.2.0
+                                 + stripe 19.1.0
+                                 + typesense 2.1.0
+                                 + zod 4.1.12
+                                 devDependencies:
+                                 + @types/node 24.9.1
+                                 + @types/react 19.2.2
+                                 + eslint 9.38.0
+                                 + eslint-config-next 16.0.0
+                                 ╭ Warning ─────────────────────────────────────────────────────────────────────╮
+                                 │                                                                              │
+                                 │   Ignored build scripts: @clerk/shared, @prisma/client, sharp,               │
+                                 │   unrs-resolver.                                                             │
+                                 │   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+                                 │   to run scripts.                                                            │
+                                 │                                                                              │
+                                 ╰──────────────────────────────────────────────────────────────────────────────╯
+2025-10-28T01:42:02.475Z [INFO]: Done in 5.4s using pnpm v10.19.0
+2025-10-28T01:42:02.514Z [INFO]: # Completed phase: preBuild
+                                 # Starting phase: build
+                                 # Executing command: pnpm build
+2025-10-28T01:42:02.854Z [INFO]: > 07cares@0.1.0 build /codebuild/output/src788237947/src/07cares
+                                 > next build
+2025-10-28T01:42:03.514Z [INFO]: ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+2025-10-28T01:42:03.529Z [INFO]: Attention: Next.js now collects completely anonymous telemetry regarding usage.
+2025-10-28T01:42:03.529Z [INFO]: This information is used to shape Next.js' roadmap and prioritize features.
+                                 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+                                 https://nextjs.org/telemetry
+2025-10-28T01:42:03.541Z [INFO]: ▲ Next.js 16.0.0 (Turbopack)
+2025-10-28T01:42:03.541Z [INFO]: 
+2025-10-28T01:42:03.599Z [WARNING]: ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+2025-10-28T01:42:03.638Z [INFO]: Creating an optimized production build ...
+2025-10-28T01:42:14.181Z [WARNING]: 
+2025-10-28T01:42:14.186Z [WARNING]: > Build error occurred
+                                    Error: Turbopack build failed with 3 errors:
+                                    ./src/app/api/trigger/route.ts:1:1
+                                    Module not found: Can't resolve '@trigger.dev/nextjs'
+                                    [0m[31m[1m>[22m[39m[90m 1 |[39m [36mexport[39m { handler [36mas[39m [33mGET[39m[33m,[39m handler [36mas[39m [33mPOST[39m } [36mfrom[39m [32m"@trigger.dev/nextjs"[39m[33m;[39m
+                                    [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+                                    [90m 2 |[39m[0m
+                                    https://nextjs.org/docs/messages/module-not-found
+                                    ./src/app/admin/page.tsx:3:1
+                                    Module not found: Can't resolve 'ra-data-simple-rest'
+                                    [0m [90m 1 |[39m [32m"use client"[39m[33m;[39m
+                                    [90m 2 |[39m [36mimport[39m { [33mAdmin[39m[33m,[39m [33mResource[39m[33m,[39m [33mListGuesser[39m } [36mfrom[39m [32m"react-admin"[39m[33m;[39m
+                                    [31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m simpleRestProvider [36mfrom[39m [32m"ra-data-simple-rest"[39m[33m;[39m
+                                    [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+                                    [90m 4 |[39m
+                                    [90m 5 |[39m [36mexport[39m [36mdefault[39m [36mfunction[39m [33mAdminPage[39m() {
+                                    [90m 6 |[39m   [36mconst[39m dataProvider [33m=[39m simpleRestProvider([32m"/api/admin"[39m)[33m;[39m[0m
+                                    Import traces:
+                                    Client Component Browser:
+                                    ./src/app/admin/page.tsx [Client Component Browser]
+                                    ./src/app/admin/page.tsx [Server Component]
+                                    Client Component SSR:
+                                    ./src/app/admin/page.tsx [Client Component SSR]
+                                    ./src/app/admin/page.tsx [Server Component]
+                                    https://nextjs.org/docs/messages/module-not-found
+                                    ./src/app/admin/page.tsx:2:1
+                                    Module not found: Can't resolve 'react-admin'
+                                    [0m [90m 1 |[39m [32m"use client"[39m[33m;[39m
+                                    [31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { [33mAdmin[39m[33m,[39m [33mResource[39m[33m,[39m [33mListGuesser[39m } [36mfrom[39m [32m"react-admin"[39m[33m;[39m
+                                    [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+                                    [90m 3 |[39m [36mimport[39m simpleRestProvider [36mfrom[39m [32m"ra-data-simple-rest"[39m[33m;[39m
+                                    [90m 4 |[39m
+                                    [90m 5 |[39m [36mexport[39m [36mdefault[39m [36mfunction[39m [33mAdminPage[39m() {[0m
+                                    Import traces:
+                                    Client Component Browser:
+                                    ./src/app/admin/page.tsx [Client Component Browser]
+                                    ./src/app/admin/page.tsx [Server Component]
+                                    Client Component SSR:
+                                    ./src/app/admin/page.tsx [Client Component SSR]
+                                    ./src/app/admin/page.tsx [Server Component]
+                                    https://nextjs.org/docs/messages/module-not-found
+                                    at <unknown> (./src/app/api/trigger/route.ts:1:1)
+                                    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+                                    at <unknown> (./src/app/admin/page.tsx:3:1)
+                                    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+                                    at <unknown> (./src/app/admin/page.tsx:2:1)
+                                    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+2025-10-28T01:42:14.270Z [INFO]: ELIFECYCLE  Command failed with exit code 1.
+2025-10-28T01:42:14.326Z [ERROR]: !!! Build failed
+2025-10-28T01:42:14.326Z [INFO]: Please read more about Amplify Hosting's support for SSR frameworks to find if your build failure is related to an unsupported feature: https://docs.aws.amazon.com/amplify/latest/userguide/amplify-ssr-framework-support.html. You may also find this troubleshooting guide useful: https://docs.aws.amazon.com/amplify/latest/userguide/troubleshooting-ssr-deployment.html
+2025-10-28T01:42:14.327Z [ERROR]: !!! Error: Command failed with exit code 1
+2025-10-28T01:42:14.327Z [INFO]: # Starting environment caching...
+2025-10-28T01:42:14.327Z [INFO]: # Environment caching completed
 
