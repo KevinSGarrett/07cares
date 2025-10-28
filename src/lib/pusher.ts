@@ -1,17 +1,32 @@
 ﻿import PusherServer from "pusher";
 import PusherClient from "pusher-js";
 
-export const pusherServer = new PusherServer({
-  appId: process.env.PUSHER_APP_ID!,
-  key: process.env.NEXT_PUBLIC_PUSHER_KEY!,
-  secret: process.env.PUSHER_SECRET!,
-  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
-  useTLS: true,
-});
+/** Server-side getter — returns null if env incomplete */
+export function getPusherServer() {
+  const {
+    PUSHER_APP_ID,
+    PUSHER_KEY,
+    PUSHER_SECRET,
+    PUSHER_CLUSTER,
+  } = process.env;
 
-export const pusherClient = new PusherClient(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
-  cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
-});
+  if (!PUSHER_APP_ID || !PUSHER_KEY || !PUSHER_SECRET || !PUSHER_CLUSTER) {
+    return null; // safe no-op during build
+  }
 
+  return new PusherServer({
+    appId: PUSHER_APP_ID,
+    key: PUSHER_KEY,
+    secret: PUSHER_SECRET,
+    cluster: PUSHER_CLUSTER,
+    useTLS: true,
+  });
+}
 
-
+/** Client-side getter — returns null if public env incomplete */
+export function getPusherClient() {
+  const key = process.env.NEXT_PUBLIC_PUSHER_KEY;
+  const cluster = process.env.NEXT_PUBLIC_PUSHER_CLUSTER;
+  if (!key || !cluster) return null;
+  return new PusherClient(key, { cluster, forceTLS: true });
+}
