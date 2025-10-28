@@ -22,75 +22,101 @@ jobs:
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # If Amplify already has an in-flight job on the branch, wait for it to finish first.
-      - name: Wait on any existing running job for this branch
+      # 1) If a job is already in-flight on this branch, wait for it to complete
+      - name: Wait for any existing running job to finish
         id: wait_existing
         shell: bash
         run: |
           set -euo pipefail
-          echo "Checking for existing jobs on app=${{ secrets.AMPLIFY_APP_ID }} branch=${{ secrets.AMPLIFY_BRANCH }}"
-
-          # Poll up to ~20 minutes (60 * 20s)
+          echo "Checking existing jobs for app=${{ secrets.AMPLIFY_APP_ID }} branch=${{ secrets.AMPLIFY_BRANCH }}"
           for i in {1..60}; do
-            # Get the most recent job's id and status (may return "None" if none exist yet)
-            read -r CUR_ID CUR_STATUS <<<"$(aws amplify list-jobs \
+            # Get latest job id + status (may output 'None' if no jobs exist)
+            read -r LATEST_ID LATEST_STATUS <<<"$(aws amplify list-jobs \
               --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
               --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
               --max-items 1 \
               --query 'jobSummaries[0].[jobId,status]' \
               --output text | tr -d '\r')"
 
-            CUR_ID="${CUR_ID:-}"
-            CUR_STATUS="${CUR_STATUS:-None}"
+            LATEST_STATUS="${LATEST_STATUS:-None}"
+            echo "Latest job: id=${LATEST_ID:-None} status=${LATEST_STATUS}"
 
-            echo "Most recent job: id=${CUR_ID:-None} status=${CUR_STATUS}"
-
-            case "$CUR_STATUS" in
+            case "$LATEST_STATUS" in
               RUNNING|PENDING|PROVISIONING|QUEUED|CANCELING)
-                echo "A job is still in progress; waiting..."
+                echo "A job is in progress; waiting 20s..."
                 sleep 20
                 ;;
-              SUCCEED|FAILED|CANCELLED|None)
-                echo "No running job detected (or last job is finished)."
+              SUCCEED|FAILED|CANCELLED|None|"")
+                echo "No active job detected (or last job finished)."
                 break
                 ;;
               *)
-                echo "Unknown status: $CUR_STATUS (waiting a bit)"
+                echo "Unknown status '$LATEST_STATUS' — waiting 20s..."
                 sleep 20
                 ;;
             esac
           done
 
-      # Start a new RELEASE job and capture the jobId directly from start-job
-      - name: Start Amplify RELEASE and capture jobId
-        id: start
+      # 2) Try to start a new RELEASE job.
+      #    If Amplify says "already have pending or running jobs", capture the running jobId and poll it.
+      - name: Start or attach to running job
+        id: start_or_attach
         shell: bash
         run: |
           set -euo pipefail
-          JOB_ID="$(aws amplify start-job \
-            --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
-            --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
-            --job-type RELEASE \
-            --job-reason "GitHub Actions deploy $(date -Is)" \
-            --query 'jobSummary.jobId' \
-            --output text | tr -d '\r\n')"
 
-          if [ -z "$JOB_ID" ] || ! [[ "$JOB_ID" =~ ^[0-9]+$ ]]; then
-            echo "ERROR: Could not extract numeric jobId from start-job response"
-            exit 1
+          try_start() {
+            aws amplify start-job \
+              --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
+              --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
+              --job-type RELEASE \
+              --job-reason "GitHub Actions deploy $(date -Is)" \
+              --query 'jobSummary.jobId' \
+              --output text | tr -d '\r\n'
+          }
+
+          attach_running() {
+            # Find the most recent in-flight job on this branch
+            aws amplify list-jobs \
+              --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
+              --branch-name "${{ secrets.AMPLIFY_BRANCH }}" \
+              --max-items 25 \
+              --query "jobSummaries[?status=='RUNNING'||status=='PENDING'||status=='PROVISIONING'||status=='QUEUED'||status=='CANCELING']|[0].jobId" \
+              --output text | tr -d '\r\n'
+          }
+
+          # Small delay to avoid racing with an auto-build
+          sleep 2
+
+          set +e
+          JOB_ID="$(try_start)"
+          START_RC=$?
+          set -e
+
+          if [ $START_RC -ne 0 ] || [ -z "$JOB_ID" ] || ! [[ "$JOB_ID" =~ ^[0-9]+$ ]]; then
+            echo "Could not start a new job (rc=$START_RC). Checking for an in-flight job to attach..."
+            # Sometimes StartJob returns LimitExceededException if a job was triggered concurrently (e.g. auto-build).
+            JOB_ID="$(attach_running)"
+            JOB_ID="$(echo -n "$JOB_ID" | tr -d '\r\n')"
+            if [ -z "$JOB_ID" ] || ! [[ "$JOB_ID" =~ ^[0-9]+$ ]]; then
+              echo "ERROR: No running job found to attach and start-job failed."
+              exit 1
+            fi
+            echo "Attaching to running jobId: $JOB_ID"
+          else
+            echo "Started Amplify jobId: $JOB_ID"
           fi
 
-          echo "Started Amplify jobId: $JOB_ID"
           echo "job_id=$JOB_ID" >> "$GITHUB_OUTPUT"
 
+      # 3) Poll the captured jobId (either started by us or already running) until it finishes
       - name: Wait for Amplify job to finish
         shell: bash
         run: |
           set -euo pipefail
-          JOB_ID="${{ steps.start.outputs.job_id }}"
+          JOB_ID="${{ steps.start_or_attach.outputs.job_id }}"
           echo "Polling Amplify job: $JOB_ID"
 
-          # Poll up to ~20 minutes (60 * 20s)
           for i in {1..60}; do
             STATUS="$(aws amplify get-job \
               --app-id "${{ secrets.AMPLIFY_APP_ID }}" \
@@ -114,7 +140,7 @@ jobs:
                 sleep 20
                 ;;
               *)
-                echo "Unknown status '$STATUS'; waiting…"
+                echo "Unknown status '$STATUS' — waiting 20s..."
                 sleep 20
                 ;;
             esac
