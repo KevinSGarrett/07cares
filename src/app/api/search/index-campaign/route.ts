@@ -1,7 +1,7 @@
 ﻿export const dynamic = "force-dynamic";
 // @ts-nocheck
 // guarded client
-import { getTypesense } from "@/lib/tsClient";
+import { getTypesense } from "@/lib/typesense";
 import { prisma } from "@/server/db";
 
 export async function POST() {
@@ -27,6 +27,7 @@ export async function POST() {
   await tsClient.collections(collection).documents().import(docs, { action: "upsert" });
   return new Response("ok");
 }
+
 
 
 
