@@ -11,7 +11,7 @@ frontend:
         - '[ -n "$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" ] || { echo "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"; exit 1; }'
         - '[ -n "$CLERK_SECRET_KEY" ] || { echo "Missing CLERK_SECRET_KEY"; exit 1; }'
         - '[ -n "$STRIPE_SECRET_KEY" ] || { echo "Missing STRIPE_SECRET_KEY"; exit 1; }'
-        - '[ -n "$DATABASE_URL" ] || { echo "Missing DATABASE_URL"; exit 1; }'
+        - '[ -n "$DATABASE_URL" ] || { echo "Missing DATABASE_URL"; exit 1; }'        - 'pnpm config set ignore-scripts false'
         - 'pnpm install'
         - 'echo "diagnostic: search/index-campaign/route.ts (first 40 lines)"'
         - 'head -n 40 ./src/app/api/search/index-campaign/route.ts || true'
@@ -26,3 +26,4 @@ frontend:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
+
