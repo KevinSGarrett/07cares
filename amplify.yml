@@ -14,7 +14,9 @@ frontend:
         - '[ -n "$STRIPE_SECRET_KEY" ] || { echo "Missing STRIPE_SECRET_KEY"; exit 1; }'
         - '[ -n "$DATABASE_URL" ] || { echo "Missing DATABASE_URL"; exit 1; }'
         - 'pnpm install'
-    build:
+    
+        - 'echo \"diagnostic: search/index-campaign/route.ts (first 40 lines)\"'
+        - 'head -n 40 ./src/app/api/search/index-campaign/route.ts || true'build:
       commands:
         # If you hit OOM, uncomment the next line:
         # - 'export NODE_OPTIONS="--max_old_space_size=4096"'
@@ -27,3 +29,4 @@ frontend:
     paths:
       - node_modules/**/*
       - .next/cache/**/*
+
