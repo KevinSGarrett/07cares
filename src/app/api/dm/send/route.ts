@@ -1,4 +1,5 @@
-﻿import { getPusherServer } from "@/lib/pusher";
+﻿export const dynamic = "force-dynamic";
+import { getPusherServer } from "@/lib/pusher";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -11,5 +12,6 @@ export async function POST(req: Request) {
   await getPusherServer.trigger(`thread-${threadId}`, "message:new", { text, ts: Date.now() });
   return NextResponse.json({ ok: true });
 }
+
 
 
