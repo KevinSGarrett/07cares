@@ -1,0 +1,67 @@
+name: Danger
+
+on:
+  pull_request:
+
+jobs:
+  danger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+
+      - name: Install deps
+        run: pnpm install
+
+      # Provide env and create coverage for Danger to read
+      - name: Create .env for PR checks
+        run: |
+          cat > .env << 'EOF'
+          NEXT_PUBLIC_APP_URL=http://localhost:3000
+          NODE_ENV=production
+          AUTH_BYPASS=true
+          DATABASE_URL=postgresql://postgres:postgres@localhost:5432/fundraise?sslmode=disable
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_dummy
+          CLERK_SECRET_KEY=sk_test_dummy
+          STRIPE_SECRET_KEY=sk_test_dummy
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_dummy
+          STRIPE_WEBHOOK_SECRET=whsec_dummy
+          STRIPE_CONNECT_WEBHOOK_SECRET=whsec_dummy
+          CLOUDINARY_CLOUD_NAME=demo
+          CLOUDINARY_API_KEY=demo
+          CLOUDINARY_API_SECRET=demo
+          MUX_TOKEN_ID=demo
+          MUX_TOKEN_SECRET=demo
+          TYPESENSE_HOST=localhost
+          TYPESENSE_PROTOCOL=http
+          TYPESENSE_PORT=8108
+          TYPESENSE_API_KEY=xyz
+          PUSHER_APP_ID=1111
+          PUSHER_KEY=key
+          PUSHER_SECRET=secret
+          PUSHER_CLUSTER=us2
+          NEXT_PUBLIC_PUSHER_KEY=key
+          NEXT_PUBLIC_PUSHER_CLUSTER=us2
+          POSTMARK_SERVER_TOKEN=dummy
+          TWILIO_ACCOUNT_SID=AC_dummy
+          TWILIO_AUTH_TOKEN=dummy
+          TWILIO_MESSAGING_SERVICE_SID=MG_dummy
+          NEXT_PUBLIC_GROWTHBOOK_CLIENT_KEY=gb_dummy
+          GROWTHBOOK_API_HOST=https://cdn.growthbook.io
+          EOF
+          cp .env .env.local
+
+      - name: Run unit tests to produce coverage
+        run: pnpm test
+
+      - name: Run Danger
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm dlx danger ci
