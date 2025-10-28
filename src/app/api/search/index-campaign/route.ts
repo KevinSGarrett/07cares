@@ -1,4 +1,4 @@
-import { typesense } from "@/lib/typesense";
+﻿import { typesense } from "@/lib/typesense";
 import { prisma } from "@/server/db";
 
 export async function POST() {
@@ -18,7 +18,8 @@ export async function POST() {
       default_sorting_field: "id",
     });
   }
-  const docs = campaigns.map(c => ({ id: c.id, title: c.title, city: c.city, state: c.state, isAon: c.isAon }));
+  const docs = campaigns.map((c: any) => ({ id: c.id, title: c.title, city: c.city, state: c.state, isAon: c.isAon }));
   await typesense.collections(collection).documents().import(docs, { action: "upsert" });
   return new Response("ok");
 }
+
