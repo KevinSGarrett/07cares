@@ -1,13 +1,17 @@
-﻿// @ts-nocheck
-import { typesense } from "@/lib/typesense";
+﻿export const dynamic = "force-dynamic";
+// @ts-nocheck
+// guarded client
+import { getTypesense } from "@/lib/tsClient";
 import { prisma } from "@/server/db";
 
 export async function POST() {
-  const campaigns = await prisma.campaign.findMany({ take: 100 });
+  
+  const tsClient = getTypesense();
+  if (!tsClient) { return new Response("tsClient disabled at build", { status: 200 }); }const campaigns = await prisma.campaign.findMany({ take: 100 });
   const collection = "campaigns";
-  try { await typesense.collections(collection).retrieve(); }
+  try { await tsClient.collections(collection).retrieve(); }
   catch {
-    await typesense.collections().create({
+    await tsClient.collections().create({
       name: collection,
       fields: [
         { name: "id", type: "string" },
@@ -20,9 +24,10 @@ export async function POST() {
     });
   }
   const docs = (campaigns as any[]).map((c: any) => ({ id: c.id, title: c.title, city: c.city, state: c.state, isAon: (c as any).isAon }));
-  await typesense.collections(collection).documents().import(docs, { action: "upsert" });
+  await tsClient.collections(collection).documents().import(docs, { action: "upsert" });
   return new Response("ok");
 }
+
 
 
 
