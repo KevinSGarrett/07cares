@@ -1,4 +1,4 @@
-﻿name: Deploy (Amplify)
+name: Deploy (Amplify)
 
 on:
   push:

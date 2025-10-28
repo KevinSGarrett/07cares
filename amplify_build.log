@@ -1,0 +1,9 @@
+2025-10-28T01:15:43.388Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2025-10-28T01:15:43.884Z [INFO]: # Cloning repository: git@github.com:KevinSGarrett/07cares.git
+2025-10-28T01:15:44.565Z [INFO]: 
+2025-10-28T01:15:44.565Z [INFO]: Cloning into '07cares'...
+2025-10-28T01:15:44.566Z [INFO]: # Checking for Git submodules at: /codebuild/output/src2592441521/src/07cares/.gitmodules
+2025-10-28T01:15:44.568Z [ERROR]: !!! CustomerError: Invalid configuration file found in repository: Unexpected token ﻿ in JSON at position 0
+2025-10-28T01:15:44.568Z [INFO]: # Starting environment caching...
+2025-10-28T01:15:44.569Z [INFO]: # Environment caching completed
+
