@@ -1,6 +1,5 @@
 ﻿// src/app/api/db/ping/route.ts
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { getDbUrl } from "@/lib/getDbUrl";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +8,12 @@ export const runtime = "nodejs";
 export async function GET() {
   try {
     const url = await getDbUrl();
-    const prisma = new PrismaClient({ datasources: { db: { url } } });
+    // Ensure Prisma sees DATABASE_URL before client load
+    (globalThis as any).process = (globalThis as any).process || {};
+    process.env.DATABASE_URL = url;
+
+    const { PrismaClient } = await import("@prisma/client");
+    const prisma = new PrismaClient();
     await prisma.$queryRawUnsafe("SELECT 1");
     return NextResponse.json({ ok: true, db: "up" }, { status: 200 });
   } catch (err: any) {

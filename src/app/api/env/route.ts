@@ -1,6 +1,7 @@
 ﻿// src/app/api/env/route.ts
 import { NextResponse } from "next/server";
 import { getDbUrl } from "@/lib/getDbUrl";
+
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 

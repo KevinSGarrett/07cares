@@ -3,8 +3,8 @@ export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export default async function Portal() {
-  // Default to stub if Clerk isn’t fully configured
-  const BYPASS = process.env.AUTH_BYPASS !== "false"; // default true if unset
+  // Default to stub unless explicitly disabled
+  const BYPASS = process.env.AUTH_BYPASS !== "false";
   if (BYPASS) {
     return (
       <div className="p-8">
