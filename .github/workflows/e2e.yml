@@ -1,0 +1,62 @@
+name: E2E
+
+on:
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Enable pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Create .env for E2E
+        run: |
+          cat > .env << 'EOF'
+          NEXT_PUBLIC_APP_URL=http://localhost:3000
+          AUTH_BYPASS=true
+          DATABASE_URL=postgresql://postgres:postgres@localhost:5432/fundraise?sslmode=disable
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_dummy
+          CLERK_SECRET_KEY=sk_test_dummy
+          EOF
+          cp .env .env.local
+
+      - name: Start ephemeral Postgres
+        uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '15'
+          postgresql db: 'fundraise'
+          postgresql user: 'postgres'
+          postgresql password: 'postgres'
+
+      - name: Prisma generate & push
+        run: |
+          pnpm prisma:generate
+          pnpm prisma:push
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps || true
+
+      - name: Build
+        run: pnpm build
+
+      - name: Start server
+        run: pnpm start &
+
+      - name: Wait for server
+        run: pnpm dlx wait-on http://localhost:3000
+
+      - name: Run E2E tests
+        run: pnpm e2e
