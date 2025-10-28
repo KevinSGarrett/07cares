@@ -2,7 +2,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../server/db";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";`r`nexport const runtime = "nodejs";
 
 export async function GET() {
   const env = {
@@ -21,3 +21,4 @@ export async function GET() {
     );
   }
 }
+

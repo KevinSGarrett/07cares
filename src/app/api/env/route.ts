@@ -1,6 +1,10 @@
 ﻿// src/app/api/env/route.ts
 import { NextResponse } from "next/server";
+<<<<<<< HEAD
+export const dynamic = "force-dynamic";`r`nexport const runtime = "nodejs";
+=======
 export const dynamic = "force-dynamic";
+>>>>>>> origin/main
 export async function GET() {
   const env = {
     AUTH_BYPASS: process.env.AUTH_BYPASS || "",
@@ -9,3 +13,7 @@ export async function GET() {
   };
   return NextResponse.json({ ok: true, env }, { status: 200 });
 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> origin/main

@@ -1,6 +1,6 @@
 ﻿// src/app/portal/page.tsx
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";`r`nexport const runtime = "nodejs";
 
 export default async function Portal() {
   const BYPASS = process.env.AUTH_BYPASS === "true";
@@ -28,3 +28,4 @@ export default async function Portal() {
     </div>
   );
 }
+
