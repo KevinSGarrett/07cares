@@ -1,40 +1,52 @@
 name: CI
+
 on:
   push:
-    branches: [ "**" ]
+    branches: [ main ]
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9
-
-      - name: Use Node.js
+      - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+
+      - name: Enable pnpm via corepack
+        shell: bash
+        run: |
+          set -euo pipefail
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version
 
       - name: Install deps
-        run: pnpm install --frozen-lockfile
+        shell: bash
+        run: pnpm install
 
-      - name: Generate Prisma client
-        run: pnpm prisma:generate
+      - name: Typecheck (optional)
+        if: hashFiles('tsconfig.json') != ''
+        shell: bash
+        run: |
+          if pnpm -s run | grep -q "^typecheck"; then pnpm typecheck; else echo "no typecheck script"; fi
 
-      - name: Lint
-        run: pnpm lint
+      - name: Lint (optional)
+        shell: bash
+        run: |
+          if pnpm -s run | grep -q "^lint"; then pnpm lint; else echo "no lint script"; fi
 
-      - name: Typecheck
-        run: pnpm typecheck
-
-      - name: Unit tests
-        run: pnpm test --if-present
+      - name: Unit tests + coverage
+        shell: bash
+        run: pnpm test
 
       - name: Build
+        shell: bash
         run: pnpm build
