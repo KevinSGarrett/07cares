@@ -1,12 +1,12 @@
-// src/app/api/campaign/[slug]/debug/route.ts
+// src/app/api/campaign/[id]/debug/route.ts
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import { getDbUrl } from "@/lib/getDbUrl";
 
-export async function GET(_: Request, ctx: { params: { slug: string } }) {
-  const slug = ctx.params.slug;
+export async function GET(_: Request, ctx: { params: Promise<{ id: string }> }) {
+  const { id } = await ctx.params;
   try {
     const url = await getDbUrl();
     (globalThis as any).process = (globalThis as any).process || {};
@@ -15,13 +15,15 @@ export async function GET(_: Request, ctx: { params: { slug: string } }) {
     const { PrismaClient } = await import("@prisma/client");
     const prisma = new PrismaClient();
 
-    const campaign = await prisma.campaign.findUnique({ where: { slug } });
+    const campaign = await prisma.campaign.findUnique({ where: { id } });
     const agg = campaign
       ? await prisma.donation.aggregate({ where: { campaignId: campaign.id }, _sum: { amountCents: true } })
       : null;
 
-    return NextResponse.json({ ok: true, slug, campaign, totalCents: agg?._sum?.amountCents ?? 0 }, { status: 200 });
+    return NextResponse.json({ ok: true, id, campaign, totalCents: agg?._sum?.amountCents ?? 0 }, { status: 200 });
   } catch (err: any) {
-    return NextResponse.json({ ok: false, slug, error: String(err?.message || err) }, { status: 500 });
+    return NextResponse.json({ ok: false, id, error: String(err?.message || err) }, { status: 500 });
   }
 }
+
+
