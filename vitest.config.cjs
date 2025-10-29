@@ -18,7 +18,9 @@ module.exports = defineConfig({
       // Scope coverage to what we actually unit-test right now
       include: [
         "src/lib/money.ts",
-        "src/schemas/**/*.ts"
+        "src/schemas/**/*.ts",
+        "src/env.ts",
+        "src/lib/getDbUrl.ts"
       ],
       // Exclude framework and untested areas for now
       exclude: [

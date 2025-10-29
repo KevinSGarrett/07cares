@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/server/db";
+import { env } from "@/env";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -21,21 +22,29 @@ export async function POST(req: Request) {
     case "payment_intent.succeeded": {
       const pi = event.data.object as any;
       const campaignId = pi.metadata?.campaignId as string | undefined;
+      const donorFromMetadata = (pi.metadata?.donorUserId as string | undefined) || undefined;
       if (campaignId) {
         const amountCents = pi.amount_received as number;
-        // TODO: attach real donorId based on session/metadata
-        const fallbackUser = await prisma.user.upsert({
-          where: { email: "anon@example.com" },
-          create: { email: "anon@example.com", clerkId: "anon", displayName: "Anonymous" },
-          update: {},
-        });
+        const useBypass = (process.env.AUTH_BYPASS ?? "").toLowerCase() === "true";
+        let donorId: string;
+        if (donorFromMetadata && !useBypass) {
+          donorId = donorFromMetadata;
+        } else {
+          const fallbackUser = await prisma.user.upsert({
+            where: { email: "demo-user@example.com" },
+            create: { email: "demo-user@example.com", clerkId: "demo-user", displayName: "Demo User" },
+            update: {},
+          });
+          donorId = (fallbackUser as any)?.id ?? "user_demo";
+        }
         await prisma.donation.create({
           data: {
             campaignId,
-            donorId: fallbackUser.id,
+            donorId,
             amountCents,
             tipCents: 0,
             intentId: pi.id,
+            hideName: useBypass ? true : undefined,
           },
         });
       }
