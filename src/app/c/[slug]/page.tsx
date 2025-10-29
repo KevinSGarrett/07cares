@@ -45,6 +45,11 @@ export default async function CampaignPage({
       where: { campaignId: campaign.id },
       _sum: { amountCents: true },
     });
+    const media = await prisma.campaignMedia.findMany({
+      where: { campaignId: campaign.id },
+      orderBy: { position: "asc" },
+      take: 12,
+    });
 
     const totalCents = agg._sum.amountCents ?? 0;
     const goalCents =
@@ -91,6 +96,24 @@ export default async function CampaignPage({
         <section style={{ maxWidth: 520 }}>
           <h2 style={{ fontSize: 20, fontWeight: 600 }}>Support this campaign</h2>
           <DonateWidget campaignId={campaign.id} />
+        </section>
+
+        <section>
+          <h2 style={{ fontSize: 20, fontWeight: 600 }}>Gallery</h2>
+          {media.length ? (
+            <div style={{
+              marginTop: 12,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+              gap: 8,
+            }}>
+              {media.map((m) => (
+                <img key={m.id} src={m.url} alt={m.type} style={{ width: "100%", height: 120, objectFit: "cover", borderRadius: 8 }} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm opacity-70" style={{ marginTop: 8 }}>No media yet.</p>
+          )}
         </section>
       </main>
     );

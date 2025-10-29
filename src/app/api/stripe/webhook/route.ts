@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  const sig = headers().get("stripe-signature") as string;
+  const sig = (await headers()).get("stripe-signature") as string;
   const rawBody = await req.text();
   const secret = process.env.STRIPE_WEBHOOK_SECRET!;
 
