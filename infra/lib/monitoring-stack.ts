@@ -3,7 +3,6 @@ import * as cloudwatch from "aws-cdk-lib/aws-cloudwatch";
 import * as cloudwatch_actions from "aws-cdk-lib/aws-cloudwatch-actions";
 import * as sns from "aws-cdk-lib/aws-sns";
 import * as backup from "aws-cdk-lib/aws-backup";
-import * as iam from "aws-cdk-lib/aws-iam";
 import * as subscriptions from "aws-cdk-lib/aws-sns-subscriptions";
 import { Construct } from "constructs";
 
@@ -62,7 +61,7 @@ export class MonitoringStack extends cdk.Stack {
       );
     }
 
-    const notificationArns = alarmTopic ? [alarmTopic.topicArn] : [];
+    // noop
 
     // 1. Amplify HTTP 5xx Error Rate Alarm
     const http5xxAlarm = new cloudwatch.Alarm(this, "AmplifyHTTP5xxAlarm", {

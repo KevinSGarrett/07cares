@@ -1,20 +1,22 @@
 #!/usr/bin/env node
-import "source-map-support/register";
-import * as cdk from "aws-cdk-lib";
-import { MonitoringStack } from "./lib/monitoring-stack";
+import 'source-map-support/register';
+import * as cdk from 'aws-cdk-lib';
+import { MonitoringStack } from './lib/monitoring-stack';
 
 const app = new cdk.App();
 
-// Environment configuration
 const stagingEnv: cdk.Environment = {
-  account: process.env.CDK_DEFAULT_ACCOUNT,
-  region: process.env.CDK_DEFAULT_REGION || "us-east-1",
+  account: process.env.CDK_DEFAULT_ACCOUNT ?? '029530099913',
+  region: process.env.CDK_DEFAULT_REGION ?? 'us-east-1',
 };
 
-// Monitoring stack for CloudWatch alarms
-const monitoringStack = new MonitoringStack(app, "07cares-monitoring", {
+new MonitoringStack(app, 'Cares07Monitoring', {
   env: stagingEnv,
-  description: "CloudWatch alarms for Amplify, RDS, and application health",
+  amplifyAppId: 'd3ru1wmw4mnh7w',
+  dbInstanceId: 'database-1',
+  // enableWeeklySnapshot: true,
+  // dbInstanceArn: 'arn:aws:rds:us-east-1:029530099913:db:database-1',
+  // notificationEmail: 'ops@example.com',
 });
 
 app.synth();
