@@ -138,3 +138,8 @@ New entities added to support Sections 12/14/24:
 - `ReferralLink` (attribution)
 - `Payout`, `Ledger` (funds flow tracking)
 - `CampaignMedia`, `CampaignUpdate` (content)
+
+Alarm ARNs:
+- arn:aws:cloudwatch:us-east-1:029530099913:alarm:07cares-http-5xx-spike
+- arn:aws:cloudwatch:us-east-1:029530099913:alarm:07cares-p95-latency
+- arn:aws:cloudwatch:us-east-1:029530099913:alarm:07cares-rds-cpu-high
