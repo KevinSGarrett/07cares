@@ -146,3 +146,6 @@ Alarm ARNs:
 
 ![Deploy (Amplify) success](docs/screenshots/deploy-green.png)
 
+
+![Deploy (Amplify) success](docs/screenshots/deploy-green.png)
+
