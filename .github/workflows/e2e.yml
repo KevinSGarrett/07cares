@@ -7,6 +7,64 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run e2e
+        run: pnpm e2e
+        env:
+          AUTH_BYPASS: 'true'
+          NEXT_PUBLIC_APP_URL: 'http://localhost:3000'
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 'pk_test_dummy'
+          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: 'pk_test_dummy'
+          NEXT_PUBLIC_PUSHER_KEY: 'pusher_key'
+          NEXT_PUBLIC_PUSHER_CLUSTER: 'us2'
+          NEXT_PUBLIC_GROWTHBOOK_CLIENT_KEY: 'gb_dummy'
+          DATABASE_URL: 'postgresql://user:pass@localhost:5432/db'
+          CLERK_SECRET_KEY: 'sk_test_dummy'
+          STRIPE_SECRET_KEY: 'sk_test_dummy'
+          STRIPE_WEBHOOK_SECRET: 'whsec_dummy'
+          CLOUDINARY_API_KEY: '123456'
+          CLOUDINARY_API_SECRET: 'dummy'
+          MUX_TOKEN_ID: 'dummy'
+          MUX_TOKEN_SECRET: 'dummy'
+          TYPESENSE_API_KEY: 'xyz'
+          TYPESENSE_HOST: 'localhost'
+          TYPESENSE_PROTOCOL: 'http'
+          TYPESENSE_PORT: '8108'
+          PUSHER_APP_ID: '0000'
+          PUSHER_SECRET: 'dummy'
+          POSTMARK_SERVER_TOKEN: 'dummy'
+          TWILIO_ACCOUNT_SID: 'ACdummy'
+          TWILIO_AUTH_TOKEN: 'dummy'
+          TWILIO_MESSAGING_SERVICE_SID: 'MGdummy'
+          GROWTHBOOK_API_HOST: 'https://example.com'
+
+name: E2E
+
+on:
+  pull_request:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
