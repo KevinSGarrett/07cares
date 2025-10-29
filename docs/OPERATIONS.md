@@ -107,6 +107,11 @@ Configure synthetic checks for:
 - `/api/health` (every 5 minutes)
 - Home page (every 1 minute)
 
+### Evidence (Staging)
+- Deploy workflow: attach screenshot of green run on `main` (Deploy (Amplify))
+  - Suggested path: `docs/images/deploy-main-green-YYYYMMDD.png`
+- Health endpoint status: `GET https://main.d3ru1wmw4mnh7w.amplifyapp.com/api/health` should return `{ ok: true, db: 'up', ... }`
+
 ## Best Practices
 1. Never commit secrets; use Secrets Manager for sensitive values
 2. Use OIDC for CI/CD (no long-lived AWS credentials)
