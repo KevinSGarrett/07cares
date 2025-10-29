@@ -68,8 +68,9 @@ The deploy workflow (`.github/workflows/deploy.yml`) uses OIDC to assume AWS rol
 
 #### Infrastructure as Code
 CloudWatch alarms are defined in CDK (`infra/lib/monitoring-stack.ts`):
-- **Stack**: `07cares-monitoring`
-- **Deploy**: `cd infra && cdk deploy`
+- **Stack**: `Cares07Monitoring`
+- **Stack ARN**: `arn:aws:cloudformation:us-east-1:029530099913:stack/Cares07Monitoring/5bf89aa0-b483-11f0-b741-0e09c3e131e3`
+- **Deploy**: `pnpm --dir infra exec cdk deploy --app "npx ts-node --prefer-ts-exts app.ts" Cares07Monitoring`
 
 Optional weekly snapshot policy:
 - Enable by setting `enableWeeklySnapshot=true` and provide `dbInstanceArn` (e.g., `arn:aws:rds:us-east-1:<account-id>:db:database-1`).
@@ -96,11 +97,7 @@ Optional weekly snapshot policy:
    - **Action**: SNS notification
 
 #### Alarm ARNs (post-deploy)
-```
-arn:aws:cloudwatch:us-east-1:<account-id>:alarm:07cares-http-5xx-spike
-arn:aws:cloudwatch:us-east-1:<account-id>:alarm:07cares-p95-latency
-arn:aws:cloudwatch:us-east-1:<account-id>:alarm:07cares-rds-cpu-high
-```
+Alarm ARNs will be visible in CloudWatch after the `Cares07Monitoring` stack deploys.
 
 ### Uptime Checks
 Configure synthetic checks for:
