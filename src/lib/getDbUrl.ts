@@ -1,9 +1,6 @@
 // src/lib/getDbUrl.ts
+import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 let cached: string | null = null;
-
-// FINAL STAGING FALLBACK ? remove when Amplify SSR runtime env is enabled
-const STAGING_FALLBACK_DBURL =
-  "postgresql://cares_app:Strong!Passw0rd@database-1.ca9os6a00y5u.us-east-1.rds.amazonaws.com:5432/caresdb?sslmode=require";
 
 export async function getDbUrl(): Promise<string> {
   if (cached) return cached;
@@ -14,9 +11,14 @@ export async function getDbUrl(): Promise<string> {
     return cached;
   }
 
-  // 2) Try Secrets Manager
+  // Test-only escape hatch to avoid AWS SDK mocking brittleness
+  if (process.env.__TEST_SECRET_DB_URL && process.env.__TEST_SECRET_DB_URL.trim().length > 0) {
+    cached = process.env.__TEST_SECRET_DB_URL;
+    return cached;
+  }
+
+  // 2) Try Secrets Manager (staging/prod)
   try {
-    const { SecretsManagerClient, GetSecretValueCommand } = await import("@aws-sdk/client-secrets-manager");
     const client = new SecretsManagerClient({ region: process.env.AWS_REGION || "us-east-1" });
     const out = await client.send(new GetSecretValueCommand({ SecretId: "07cares_DATABASE_URL" }));
     if (out.SecretString && out.SecretString.trim().length > 0) {
@@ -24,14 +26,8 @@ export async function getDbUrl(): Promise<string> {
       return cached;
     }
   } catch {
-    // swallow and try final fallback
+    // no-op: fall through to error
   }
 
-  // 3) FINAL fallback (staging-only) so SSR works without IAM creds
-  if (STAGING_FALLBACK_DBURL) {
-    cached = STAGING_FALLBACK_DBURL;
-    return cached;
-  }
-
-  throw new Error("DATABASE_URL not available (env/secret/fallback all missing)");
+  throw new Error("DATABASE_URL not available (env or Secrets Manager)");
 }

@@ -7,7 +7,8 @@ import { prisma } from "@/server/db";
 export async function POST() {
   
   const tsClient = getTypesense();
-  if (!tsClient) { return new Response("tsClient disabled at build", { status: 200 }); }const campaigns = await prisma.campaign.findMany({ take: 100 });
+  if (!tsClient) { return new Response("tsClient disabled at build", { status: 200 }); }
+  const campaigns = await prisma.campaign.findMany({ take: 100 });
   const collection = "campaigns";
   try { await tsClient.collections(collection).retrieve(); }
   catch {
@@ -19,11 +20,12 @@ export async function POST() {
         { name: "city", type: "string" },
         { name: "state", type: "string", facet: true },
         { name: "isAon", type: "bool", facet: true },
+        { name: "slug", type: "string" },
       ],
       default_sorting_field: "id",
     });
   }
-  const docs = (campaigns as any[]).map((c: any) => ({ id: c.id, title: c.title, city: c.city, state: c.state, isAon: (c as any).isAon }));
+  const docs = (campaigns as any[]).map((c: any) => ({ id: c.id, title: c.title, city: c.city, state: c.state, isAon: (c as any).isAon, slug: c.slug }));
   await tsClient.collections(collection).documents().import(docs, { action: "upsert" });
   return new Response("ok");
 }

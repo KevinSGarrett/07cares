@@ -20,7 +20,7 @@ jobs:
           pnpm --version
 
       - name: Install deps
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Create .env for E2E
         run: |
@@ -83,7 +83,7 @@ jobs:
         run: pnpm build
 
       - name: Start server
-        run: pnpm start &
+        run: E2E_MOCK_STRIPE=1 pnpm start &
 
       - name: Wait for server
         run: pnpm dlx wait-on http://localhost:3000

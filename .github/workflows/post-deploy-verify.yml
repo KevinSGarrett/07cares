@@ -1,0 +1,28 @@
+name: Post-Deploy Verify (Staging Health)
+
+on:
+  workflow_run:
+    workflows: ["Deploy (Amplify)"]
+    types: ["completed"]
+
+permissions:
+  contents: read
+
+jobs:
+  verify-health:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check /api/health
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://main.d3ru1wmw4mnh7w.amplifyapp.com/api/health"
+          echo "Requesting $URL"
+          RES="$(curl -sfS "$URL" || true)"
+          echo "Response: $RES"
+          echo "$RES" | jq -e '.ok == true' >/dev/null || { echo "ok != true"; exit 1; }
+          # db may be down if DATABASE_URL not mapped; don't fail on that field, but report
+          DB="$(echo "$RES" | jq -r '.db // "unknown"')"
+          echo "db status: $DB"
+
