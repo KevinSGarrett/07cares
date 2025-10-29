@@ -12,7 +12,7 @@ export default async function SearchPage({
 }) {
   const { q = "", state } = await searchParams;
   const ts = getTypesense();
-  let results: Array<{ id: string; title: string; city: string; state: string }> = [];
+  let results: Array<{ id: string; title: string; city: string; state: string; slug?: string }> = [];
 
   if (ts && q.trim()) {
     try {
@@ -52,7 +52,7 @@ export default async function SearchPage({
           <ul style={{ marginTop: 12, display: "grid", gap: 8 }}>
             {results.map((r) => (
               <li key={r.id} className="border rounded p-3">
-                <a className="underline" href={`/c/${encodeURIComponent(r.title.toLowerCase().replace(/\s+/g, "-"))}`}>
+                <a className="underline" href={`/c/${encodeURIComponent(r.slug || r.id)}`}>
                   {r.title}
                 </a>
                 <div className="text-sm opacity-70">{r.city}, {r.state}</div>
