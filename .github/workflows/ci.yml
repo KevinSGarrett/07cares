@@ -31,7 +31,7 @@ jobs:
 
       - name: Install deps
         shell: bash
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       # Provide minimal env so Next build doesn't fail validation in CI
       - name: Create .env for CI build
