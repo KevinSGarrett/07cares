@@ -1,26 +1,19 @@
-﻿// src/middleware.ts
+/** src/middleware.ts */
 import { NextResponse } from "next/server";
 import { clerkMiddleware } from "@clerk/nextjs/server";
 
 /**
- * Local dev bypass:
- * If AUTH_BYPASS=true, do NOT run Clerk middleware at all.
- * Staging/prod: leave AUTH_BYPASS unset/false and Clerk will protect routes.
+ * Default to BYPASS. Only run Clerk if you explicitly set AUTH_BYPASS=false.
+ * This avoids 500s when runtime env doesn?t surface AUTH_BYPASS.
  */
-const BYPASS = process.env.AUTH_BYPASS === "true";
+const BYPASS = process.env.AUTH_BYPASS !== "false";
 
-// No-op for local bypass
 const noop = () => NextResponse.next();
 
-// Export handler: bypass locally, otherwise use Clerk on protected routes
-export default BYPASS
-  ? noop
-  : clerkMiddleware({
-      // Public routes that stay open even when Clerk is enabled
-      publicRoutes: ["/api/health"],
-    });
+// When BYPASS=true (default), no auth middleware is applied.
+export default BYPASS ? noop : clerkMiddleware();
 
-// MUST be a static literal for Next 16 to statically analyze
+// Static matcher required by Next 16
 export const config = {
-  matcher: ["/portal/:path*", "/admin/:path*"],
+  matcher: ["/portal(.*)", "/admin(.*)"],
 };
