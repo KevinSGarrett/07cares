@@ -143,3 +143,6 @@ Alarm ARNs:
 - arn:aws:cloudwatch:us-east-1:029530099913:alarm:07cares-http-5xx-spike
 - arn:aws:cloudwatch:us-east-1:029530099913:alarm:07cares-p95-latency
 - arn:aws:cloudwatch:us-east-1:029530099913:alarm:07cares-rds-cpu-high
+
+![Deploy (Amplify) success](docs/screenshots/deploy-green.png)
+
