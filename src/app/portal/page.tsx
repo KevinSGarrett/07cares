@@ -1,10 +1,11 @@
-﻿// src/app/portal/page.tsx
+/** src/app/portal/page.tsx */
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 export default async function Portal() {
-  // Default to stub unless explicitly disabled
+  // Default stub unless explicitly disabled
   const BYPASS = process.env.AUTH_BYPASS !== "false";
+
   if (BYPASS) {
     return (
       <div className="p-8">
@@ -19,15 +20,18 @@ export default async function Portal() {
     const user = await currentUser();
     return (
       <div className="p-8">
-        <h1 className="text-2xl">Welcome{user?.firstName ? `, ${user.firstName}` : ""}</h1>
+        <h1 className="text-2xl">
+          Welcome{user?.firstName ? `, ${user.firstName}` : ""}
+        </h1>
         <p className="mt-2 text-sm opacity-70">You are signed in.</p>
       </div>
     );
   } catch {
+    // Clerk not configured, fall back to stub
     return (
       <div className="p-8">
         <h1 className="text-2xl">Welcome</h1>
-        <p className="mt-2 text-sm opacity-70">(Clerk not available; showing stub)</p>
+        <p className="mt-2 text-sm opacity-70">(Clerk not available; stub)</p>
       </div>
     );
   }
