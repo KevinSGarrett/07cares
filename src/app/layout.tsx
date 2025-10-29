@@ -1,5 +1,6 @@
 ﻿/** src/app/layout.tsx */
 export const dynamic = "force-dynamic";
+export const metadata = { title: "07Cares" };
 
 import type { ReactNode } from "react";
 
