@@ -34,6 +34,27 @@ async function main() {
     },
   });
 
+  // Reward tiers for the example campaign
+  await prisma.rewardTier.createMany({
+    data: [
+      {
+        campaignId: campaign.id,
+        title: "Thank You Shoutout",
+        description: "We'll include your name in a public thank-you update.",
+        amountCents: 1000,
+        limitQuantity: null,
+      },
+      {
+        campaignId: campaign.id,
+        title: "Sponsor Badge",
+        description: "Receive a sponsor badge on the campaign page.",
+        amountCents: 5000,
+        limitQuantity: 100,
+      },
+    ],
+    skipDuplicates: true,
+  });
+
   // Optional donations (only if Donation model exists with these fields)
   await prisma.donation.createMany({
     data: [

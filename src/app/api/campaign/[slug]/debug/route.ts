@@ -5,8 +5,8 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { getDbUrl } from "@/lib/getDbUrl";
 
-export async function GET(_: Request, ctx: { params: { slug: string } }) {
-  const slug = ctx.params.slug;
+export async function GET(_: Request, ctx: { params: Promise<{ slug: string }> }) {
+  const { slug } = await ctx.params;
   try {
     const url = await getDbUrl();
     (globalThis as any).process = (globalThis as any).process || {};

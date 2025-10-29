@@ -15,7 +15,25 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   if (!RUNS_WITH_CLERK) {
     return (
       <html lang="en">
-        <body>{children}</body>
+        <body>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 50,
+              background: "#f59e0b",
+              color: "#1f2937",
+              fontSize: 12,
+              padding: "4px 8px",
+              textAlign: "center",
+            }}
+          >
+            AUTH BYPASS ON — Clerk disabled in this environment
+          </div>
+          <div style={{ paddingTop: 24 }}>{children}</div>
+        </body>
       </html>
     );
   }
