@@ -21,7 +21,7 @@ jobs:
           version: 9
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile --no-frozen-lockfile --no-frozen-lockfile
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
@@ -78,7 +78,7 @@ jobs:
           pnpm --version
 
       - name: Install deps
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile --no-frozen-lockfile
 
       - name: Create .env for E2E
         run: |
