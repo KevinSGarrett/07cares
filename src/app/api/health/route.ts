@@ -1,8 +1,7 @@
-﻿// src/app/api/health/route.ts
-import { getDbUrl } from "@/lib/getDbUrl";
+﻿import { getDbUrl } from "@/lib/getDbUrl";
 
-export const runtime = 'nodejs';         // force Node runtime on Amplify
-export const dynamic = 'force-dynamic';  // never prerender; always run on request
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 function json(status: number, data: unknown) {
   return new Response(JSON.stringify(data), {
@@ -35,26 +34,20 @@ export async function GET() {
     const dbCheck = await checkDatabase();
     const buildSha = process.env.VERCEL_GIT_COMMIT_SHA || process.env.AMPLIFY_GIT_COMMIT_SHA || 'unknown';
     const env = process.env.NODE_ENV || 'unknown';
-    
-    return json(200, { 
-      ok: true, 
+
+    return json(200, {
+      ok: true,
       db: dbCheck.ok ? 'up' : 'down',
       timestamp: new Date().toISOString(),
       runtime: 'node',
       env,
       build: buildSha,
-      ...(dbCheck.error && { dbError: dbCheck.error })
+      ...(dbCheck.error && { dbError: dbCheck.error }),
     });
   } catch (err: any) {
     return json(500, { ok: false, error: String(err?.message ?? err) });
   }
 }
 
-export async function HEAD() {
-  return new Response(null, { status: 200 });
-}
-
-export async function OPTIONS() {
-  return new Response(null, { status: 204 });
-}
-
+export async function HEAD() { return new Response(null, { status: 200 }); }
+export async function OPTIONS() { return new Response(null, { status: 204 }); }
