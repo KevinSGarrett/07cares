@@ -1,58 +1,41 @@
-﻿// src/app/layout.tsx
-import "./globals.css";
+﻿/** src/app/layout.tsx */
+export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: "07.Cares",
-  description: "Crowdfunding for good",
-};
+import type { ReactNode } from "react";
 
-// Only load ClerkProvider when we're NOT bypassing auth
-const usingClerk =
-  process.env.AUTH_BYPASS !== "true" &&
-  !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+// Toggle BYPASS via env (default = bypass)
+// If AUTH_BYPASS is NOT "false", we do NOT run Clerk at all.
+const RAW = (process.env.AUTH_BYPASS ?? "").trim().toLowerCase();
+const RUNS_WITH_CLERK = RAW === "false";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  if (usingClerk) {
-    // Import at runtime to avoid bundling Clerk when bypassing
-    const { ClerkProvider } = require("@clerk/nextjs");
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  // Minimal <html> & <body> shell so we always render something
+  // Even if we decide not to mount Clerk below.
+  // (ClerkProvider should wrap the subtree only when RUNS_WITH_CLERK)
+  if (!RUNS_WITH_CLERK) {
     return (
-      <ClerkProvider>
-        <html lang="en">
-          <body>{children}</body>
-        </html>
-      </ClerkProvider>
+      <html lang="en">
+        <body>{children}</body>
+      </html>
     );
   }
 
-  return (
-    <html lang="en">
-      <body>
-        {/* Dev banner so you can see bypass is on */}
-        {process.env.AUTH_BYPASS === "true" ? (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              background: "#fde68a",
-              color: "#111",
-              padding: "6px 10px",
-              fontSize: 12,
-              zIndex: 9999,
-              textAlign: "center",
-              borderBottom: "1px solid #f59e0b",
-            }}
-          >
-            AUTH BYPASS ON — local dev only
-          </div>
-        ) : null}
-        {children}
-      </body>
-    </html>
-  );
+  // Only load Clerk on demand to avoid runtime import errors
+  try {
+    const { ClerkProvider } = await import("@clerk/nextjs");
+    return (
+      <html lang="en">
+        <body>
+          <ClerkProvider>{children}</ClerkProvider>
+        </body>
+      </html>
+    );
+  } catch {
+    // If Clerk fails to load (missing keys, etc.), fall back gracefully
+    return (
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    );
+  }
 }
