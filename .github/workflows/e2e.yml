@@ -141,7 +141,9 @@ jobs:
         run: pnpm build
 
       - name: Start server
-        run: pnpm start &
+        run: E2E_MOCK_STRIPE=1 pnpm start &
+      - name: Start server
+        run: E2E_MOCK_STRIPE=1 pnpm start &
 
       - name: Wait for server
         run: pnpm dlx wait-on http://localhost:3000
