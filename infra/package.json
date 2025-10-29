@@ -8,8 +8,9 @@
     "diff": "cdk diff"
   },
   "devDependencies": {
+    "@aws-cdk/cloud-assembly-schema": "^2.140.0",
     "@types/node": "^20.0.0",
-    "aws-cdk": "^2.140.0",
+    "aws-cdk": "^2.1031.0",
     "aws-cdk-lib": "^2.140.0",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21",
@@ -17,4 +18,3 @@
     "typescript": "^5.0.0"
   }
 }
-
