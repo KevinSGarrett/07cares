@@ -1,22 +1,18 @@
-﻿// src/app/api/db/ping/route.ts
-import { NextResponse } from "next/server";
-import { getDbUrl } from "@/lib/getDbUrl";
+﻿import { NextResponse } from "next/server";
+import { prisma } from "@/server/db";
 
-export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const url = await getDbUrl();
-    // Ensure Prisma sees DATABASE_URL before client load
-    (globalThis as any).process = (globalThis as any).process || {};
-    process.env.DATABASE_URL = url;
-
-    const { PrismaClient } = await import("@prisma/client");
-    const prisma = new PrismaClient();
-    await prisma.$queryRawUnsafe("SELECT 1");
-    return NextResponse.json({ ok: true, db: "up" }, { status: 200 });
+    // Light-weight DB liveness probe
+    const result = await prisma.$queryRawUnsafe("SELECT 1 as ok");
+    return NextResponse.json({ ok: true, result });
   } catch (err: any) {
-    return NextResponse.json({ ok: false, db: "error", error: String(err?.message || err) }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, error: err?.message ?? String(err) },
+      { status: 500 }
+    );
   }
 }
