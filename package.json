@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "NEXT_TURBOPACK=0 next build",
     "start": "next start",
     "lint": "node -e \"console.log('lint skipped')\"",
     "typecheck": "tsc --noEmit",
@@ -59,3 +59,8 @@
   },
   "license": "UNLICENSED"
 }
+  "dependencies": {
+    "@aws-sdk/client-ssm": "^3.919.0"
+  }
+}
+

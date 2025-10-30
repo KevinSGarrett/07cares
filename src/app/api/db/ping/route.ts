@@ -1,17 +1,30 @@
-﻿import { NextResponse } from "next/server";
-import { prisma } from "@/server/db";
+﻿// src/app/api/db/ping/route.ts
+import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
+import { getDatabaseUrl } from "@/server/env.server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+let prisma: PrismaClient | null = null;
+
+async function getPrisma(): Promise<PrismaClient> {
+  if (prisma) return prisma;
+  const dbUrl = await getDatabaseUrl();
+  prisma = new PrismaClient({
+    datasourceUrl: dbUrl,
+  });
+  return prisma;
+}
+
 export async function GET() {
   try {
-    // Light-weight DB liveness probe
-    const result = await prisma.$queryRawUnsafe("SELECT 1 as ok");
-    return NextResponse.json({ ok: true, result });
+    const p = await getPrisma();
+    await p.$queryRawUnsafe("SELECT 1"); // cheap ping
+    return NextResponse.json({ ok: true, db: "up" });
   } catch (err: any) {
     return NextResponse.json(
-      { ok: false, error: err?.message ?? String(err) },
+      { ok: false, error: String(err?.message || err) },
       { status: 500 }
     );
   }
