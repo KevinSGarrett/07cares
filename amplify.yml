@@ -3,27 +3,19 @@ frontend:
   phases:
     preBuild:
       commands:
-        # Use Node 20 for build parity with Next 16
         - 'nvm install 20 && nvm use 20 || true'
         - 'corepack enable && corepack prepare pnpm@latest --activate'
         - 'echo "Node version: $(node -v 2>/dev/null || true)"'
         - 'echo "NPM version:  $(npm -v  2>/dev/null || true)"'
         - 'echo "pnpm version: $(pnpm -v 2>/dev/null || true)"'
-
-        # Required runtime envs for your app
         - '[ -n "$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" ] || { echo "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"; exit 1; }'
         - '[ -n "$CLERK_SECRET_KEY" ] || { echo "Missing CLERK_SECRET_KEY"; exit 1; }'
         - '[ -n "$STRIPE_SECRET_KEY" ] || { echo "Missing STRIPE_SECRET_KEY"; exit 1; }'
         - '[ -n "$DATABASE_URL" ] || { echo "Missing DATABASE_URL"; exit 1; }'
-
-        # Allow postinstall scripts (Prisma/Sharp/esbuild, etc.)
         - 'pnpm config set enable-pre-post-scripts true'
         - 'pnpm config set ignore-scripts false'
         - 'PNPM_ALLOW_SCRIPTS=* pnpm install --frozen-lockfile'
-
-        # Generate Prisma client
         - 'pnpm dlx prisma generate'
     build:
       commands:
         - 'pnpm build'
-  # NOTE: Do NOT declare artifacts/cache for SSR – Amplify will host the Next standalone output automatically
