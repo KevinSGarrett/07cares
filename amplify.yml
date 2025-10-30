@@ -3,7 +3,6 @@ frontend:
   phases:
     preBuild:
       commands:
-        - 'nvm install 20 && nvm use 20 || true'
         - 'corepack enable && corepack prepare pnpm@latest --activate'
         - 'echo "Node version: $(node -v 2>/dev/null || true)"'
         - 'echo "NPM version:  $(npm -v  2>/dev/null || true)"'
@@ -19,3 +18,11 @@ frontend:
     build:
       commands:
         - 'pnpm build'
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
