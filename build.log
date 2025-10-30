@@ -1,0 +1,134 @@
+2025-10-30T02:14:04.923Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2025-10-30T02:14:05.341Z [INFO]: # Cloning repository: git@github.com:KevinSGarrett/07cares.git
+2025-10-30T02:14:06.070Z [INFO]: 
+2025-10-30T02:14:06.070Z [INFO]: Cloning into '07cares'...
+2025-10-30T02:14:06.071Z [INFO]: # Switching to commit: a50365027d4ea39681f9afd68f5ba9c1a024f46b
+2025-10-30T02:14:06.112Z [INFO]: Note: switching to 'a50365027d4ea39681f9afd68f5ba9c1a024f46b'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at a503650 chore(api): add Pages Router /api/env and /api/health as Amplify fallback
+2025-10-30T02:14:06.155Z [INFO]: Successfully cleaned up Git credentials
+2025-10-30T02:14:06.156Z [INFO]: # Checking for Git submodules at: /codebuild/output/src3041920650/src/07cares/.gitmodules
+2025-10-30T02:14:06.163Z [INFO]: # Retrieving environment cache...
+2025-10-30T02:14:06.212Z [WARNING]: ! Unable to write cache: {"code":"ERR_BAD_REQUEST","message":"Request failed with status code 404"})}
+2025-10-30T02:14:06.212Z [INFO]: ---- Setting Up SSM Secrets ----
+2025-10-30T02:14:06.212Z [INFO]: SSM params {"Path":"/amplify/d3ru1wmw4mnh7w/main/","WithDecryption":true}
+2025-10-30T02:14:06.260Z [WARNING]: !Failed to set up process.env.secrets
+2025-10-30T02:14:07.185Z [INFO]: # No package override configuration found.
+2025-10-30T02:14:07.189Z [INFO]: # Retrieving cache...
+2025-10-30T02:15:19.312Z [INFO]: # Extracting cache...
+2025-10-30T02:16:05.268Z [INFO]: # Extraction completed
+2025-10-30T02:16:05.657Z [INFO]: # Retrieved cache
+2025-10-30T02:16:09.741Z [INFO]: ## Starting Backend Build
+                                 ## Checking for associated backend environment...
+                                 ## No backend environment association found, continuing...
+                                 ## Completed Backend Build
+2025-10-30T02:16:09.746Z [INFO]: ## Starting Frontend Build
+                                 # Starting phase: preBuild
+                                 # Executing command: corepack enable
+2025-10-30T02:16:11.095Z [INFO]: # Executing command: corepack prepare pnpm@latest --activate
+2025-10-30T02:16:11.522Z [INFO]: Preparing pnpm@latest for immediate activation...
+2025-10-30T02:16:12.016Z [INFO]: # Executing command: echo "Node version: $(node -v 2>/dev/null || true)"
+2025-10-30T02:16:12.021Z [INFO]: Node version: v22.18.0
+2025-10-30T02:16:12.021Z [INFO]: # Executing command: echo "NPM version:  $(npm -v  2>/dev/null || true)"
+2025-10-30T02:16:15.993Z [INFO]: NPM version:  10.9.3
+2025-10-30T02:16:15.998Z [INFO]: # Executing command: echo "pnpm version: $(pnpm -v 2>/dev/null || true)"
+2025-10-30T02:16:16.648Z [INFO]: pnpm version: 10.20.0
+2025-10-30T02:16:16.649Z [INFO]: # Executing command: [ -n "$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" ] || { echo "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"; exit 1; }
+                                 # Executing command: [ -n "$CLERK_SECRET_KEY" ] || { echo "Missing CLERK_SECRET_KEY"; exit 1; }
+                                 # Executing command: [ -n "$STRIPE_SECRET_KEY" ] || { echo "Missing STRIPE_SECRET_KEY"; exit 1; }
+                                 # Executing command: [ -n "$DATABASE_URL" ] || { echo "Missing DATABASE_URL"; exit 1; }
+                                 # Executing command: pnpm config set ignore-scripts false
+2025-10-30T02:16:16.937Z [INFO]: # Executing command: pnpm install
+2025-10-30T02:16:17.393Z [INFO]: Recreating /codebuild/output/src3041920650/src/07cares/node_modules
+2025-10-30T02:16:22.711Z [INFO]: Lockfile is up to date, resolution step is skipped
+2025-10-30T02:16:22.764Z [INFO]: Progress: resolved 1, reused 0, downloaded 0, added 0
+2025-10-30T02:16:22.852Z [INFO]: Packages: +630
+                                 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2025-10-30T02:16:23.774Z [INFO]: Progress: resolved 630, reused 0, downloaded 136, added 133
+2025-10-30T02:16:24.775Z [INFO]: Progress: resolved 630, reused 0, downloaded 163, added 151
+2025-10-30T02:16:25.775Z [INFO]: Progress: resolved 630, reused 0, downloaded 176, added 155
+2025-10-30T02:16:26.786Z [INFO]: Progress: resolved 630, reused 0, downloaded 242, added 178
+2025-10-30T02:16:27.785Z [INFO]: Progress: resolved 630, reused 0, downloaded 336, added 246
+2025-10-30T02:16:28.785Z [INFO]: Progress: resolved 630, reused 0, downloaded 563, added 546
+2025-10-30T02:16:29.174Z [INFO]: Progress: resolved 630, reused 0, downloaded 630, added 630, done
+2025-10-30T02:16:29.543Z [INFO]: dependencies:
+                                 + @aws-sdk/client-secrets-manager 3.919.0
+                                 + @clerk/nextjs 6.34.0
+                                 + @prisma/client 6.18.0
+                                 + @stripe/react-stripe-js 5.3.0
+                                 + @stripe/stripe-js 8.2.0
+                                 + @t3-oss/env-nextjs 0.13.8
+                                 + next 16.0.0
+                                 + pusher 5.2.0
+                                 + pusher-js 8.4.0
+                                 + react 19.2.0
+                                 + react-dom 19.2.0
+                                 + stripe 19.1.0
+                                 + typesense 2.1.0
+                                 + zod 4.1.12
+                                 devDependencies:
+                                 + @axe-core/playwright 4.11.0
+                                 + @playwright/test 1.56.1
+                                 + @tailwindcss/postcss 4.1.16
+                                 + @types/jsdom 27.0.0
+                                 + @types/node 24.9.1
+                                 + @types/react 19.2.2
+                                 + @types/react-dom 19.2.2
+                                 + @vitest/coverage-v8 2.1.9
+                                 + autoprefixer 10.4.21
+                                 + eslint 9.38.0
+                                 + eslint-config-next 16.0.0
+                                 + jsdom 27.0.1
+                                 + postcss 8.5.6
+                                 + prisma 6.18.0
+                                 + tailwindcss 4.1.16
+                                 + typescript 5.9.3
+                                 + typescript-eslint 8.46.2
+                                 + vitest 2.1.9
+                                 ╭ Warning ─────────────────────────────────────────────────────────────────────╮
+                                 │                                                                              │
+                                 │   Ignored build scripts: @clerk/shared, @prisma/client, @prisma/engines,     │
+                                 │   esbuild, prisma, sharp, unrs-resolver.                                     │
+                                 │   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+                                 │   to run scripts.                                                            │
+                                 │                                                                              │
+                                 ╰──────────────────────────────────────────────────────────────────────────────╯
+2025-10-30T02:16:29.578Z [INFO]: Done in 12.5s using pnpm v10.20.0
+2025-10-30T02:16:29.613Z [INFO]: # Executing command: pnpm dlx prisma generate
+2025-10-30T02:16:30.848Z [WARNING]: Progress: resolved 1, reused 0, downloaded 0, added 0
+2025-10-30T02:16:31.925Z [WARNING]: Progress: resolved 31, reused 0, downloaded 21, added 0
+2025-10-30T02:16:32.395Z [WARNING]: Packages: +33
+                                    +++++++++++++++++++++++++++++++++
+2025-10-30T02:16:32.484Z [WARNING]: Progress: resolved 33, reused 0, downloaded 33, added 33, done
+2025-10-30T02:16:32.514Z [WARNING]: .../prisma@6.18.0/node_modules/prisma preinstall$ node scripts/preinstall-entry.js
+2025-10-30T02:16:32.680Z [WARNING]: .../prisma@6.18.0/node_modules/prisma preinstall: Done
+2025-10-30T02:16:34.071Z [WARNING]: warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+                                    For more information, see: https://pris.ly/prisma-config
+2025-10-30T02:16:34.593Z [INFO]: Prisma schema loaded from prisma/schema.prisma
+2025-10-30T02:16:34.931Z [INFO]: ✔ Generated Prisma Client (v6.18.0) to ./node_modules/.pnpm/@prisma+client@6.18.0_prisma@6.18.0_magicast@0.3.5_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 164ms
+                                 Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+                                 Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+2025-10-30T02:16:34.985Z [INFO]: # Completed phase: preBuild
+                                 # Starting phase: build
+                                 # Executing command: pnpm build
+2025-10-30T02:16:35.288Z [INFO]: > 07cares@0.1.0 build /codebuild/output/src3041920650/src/07cares
+                                 > next build
+2025-10-30T02:16:35.868Z [WARNING]: 
+2025-10-30T02:16:35.868Z [WARNING]: > Build error occurred
+2025-10-30T02:16:35.871Z [WARNING]: Error: > `pages` and `app` directories should be under the same folder
+                                    at ignore-listed frames
+2025-10-30T02:16:35.892Z [INFO]: ELIFECYCLE  Command failed with exit code 1.
+2025-10-30T02:16:35.902Z [ERROR]: !!! Build failed
+2025-10-30T02:16:35.902Z [INFO]: Please read more about Amplify Hosting's support for SSR frameworks to find if your build failure is related to an unsupported feature: https://docs.aws.amazon.com/amplify/latest/userguide/amplify-ssr-framework-support.html. You may also find this troubleshooting guide useful: https://docs.aws.amazon.com/amplify/latest/userguide/troubleshooting-ssr-deployment.html
+2025-10-30T02:16:35.903Z [ERROR]: !!! Error: Command failed with exit code 1
+2025-10-30T02:16:35.903Z [INFO]: # Starting environment caching...
+2025-10-30T02:16:35.903Z [INFO]: # Environment caching completed
+
