@@ -1,9 +1,9 @@
-2025-10-30T02:14:04.923Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
-2025-10-30T02:14:05.341Z [INFO]: # Cloning repository: git@github.com:KevinSGarrett/07cares.git
-2025-10-30T02:14:06.070Z [INFO]: 
-2025-10-30T02:14:06.070Z [INFO]: Cloning into '07cares'...
-2025-10-30T02:14:06.071Z [INFO]: # Switching to commit: a50365027d4ea39681f9afd68f5ba9c1a024f46b
-2025-10-30T02:14:06.112Z [INFO]: Note: switching to 'a50365027d4ea39681f9afd68f5ba9c1a024f46b'.
+2025-10-30T02:28:46.601Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2025-10-30T02:28:47.113Z [INFO]: # Cloning repository: git@github.com:KevinSGarrett/07cares.git
+2025-10-30T02:28:47.766Z [INFO]: 
+2025-10-30T02:28:47.766Z [INFO]: Cloning into '07cares'...
+2025-10-30T02:28:47.766Z [INFO]: # Switching to commit: 1425babec2fdd701bec1419cd08f918b2cfc4f2c
+2025-10-30T02:28:47.809Z [INFO]: Note: switching to '1425babec2fdd701bec1419cd08f918b2cfc4f2c'.
                                  You are in 'detached HEAD' state. You can look around, make experimental
                                  changes and commit them, and you can discard any commits you make in this
                                  state without impacting any branches by switching back to a branch.
@@ -13,53 +13,54 @@
                                  Or undo this operation with:
                                  git switch -
                                  Turn off this advice by setting config variable advice.detachedHead to false
-                                 HEAD is now at a503650 chore(api): add Pages Router /api/env and /api/health as Amplify fallback
-2025-10-30T02:14:06.155Z [INFO]: Successfully cleaned up Git credentials
-2025-10-30T02:14:06.156Z [INFO]: # Checking for Git submodules at: /codebuild/output/src3041920650/src/07cares/.gitmodules
-2025-10-30T02:14:06.163Z [INFO]: # Retrieving environment cache...
-2025-10-30T02:14:06.212Z [WARNING]: ! Unable to write cache: {"code":"ERR_BAD_REQUEST","message":"Request failed with status code 404"})}
-2025-10-30T02:14:06.212Z [INFO]: ---- Setting Up SSM Secrets ----
-2025-10-30T02:14:06.212Z [INFO]: SSM params {"Path":"/amplify/d3ru1wmw4mnh7w/main/","WithDecryption":true}
-2025-10-30T02:14:06.260Z [WARNING]: !Failed to set up process.env.secrets
-2025-10-30T02:14:07.185Z [INFO]: # No package override configuration found.
-2025-10-30T02:14:07.189Z [INFO]: # Retrieving cache...
-2025-10-30T02:15:19.312Z [INFO]: # Extracting cache...
-2025-10-30T02:16:05.268Z [INFO]: # Extraction completed
-2025-10-30T02:16:05.657Z [INFO]: # Retrieved cache
-2025-10-30T02:16:09.741Z [INFO]: ## Starting Backend Build
+                                 HEAD is now at 1425bab fix(next): move API to src/pages/api to align with src/app
+2025-10-30T02:28:47.863Z [INFO]: Successfully cleaned up Git credentials
+2025-10-30T02:28:47.863Z [INFO]: # Checking for Git submodules at: /codebuild/output/src3786882305/src/07cares/.gitmodules
+2025-10-30T02:28:47.871Z [INFO]: # Retrieving environment cache...
+2025-10-30T02:28:47.921Z [WARNING]: ! Unable to write cache: {"code":"ERR_BAD_REQUEST","message":"Request failed with status code 404"})}
+2025-10-30T02:28:47.921Z [INFO]: ---- Setting Up SSM Secrets ----
+2025-10-30T02:28:47.921Z [INFO]: SSM params {"Path":"/amplify/d3ru1wmw4mnh7w/main/","WithDecryption":true}
+2025-10-30T02:28:47.970Z [WARNING]: !Failed to set up process.env.secrets
+2025-10-30T02:28:48.841Z [INFO]: # No package override configuration found.
+2025-10-30T02:28:48.845Z [INFO]: # Retrieving cache...
+2025-10-30T02:29:45.599Z [INFO]: # Extracting cache...
+2025-10-30T02:30:33.731Z [INFO]: # Extraction completed
+2025-10-30T02:30:34.136Z [INFO]: # Retrieved cache
+2025-10-30T02:30:39.497Z [INFO]: ## Starting Backend Build
                                  ## Checking for associated backend environment...
                                  ## No backend environment association found, continuing...
                                  ## Completed Backend Build
-2025-10-30T02:16:09.746Z [INFO]: ## Starting Frontend Build
+2025-10-30T02:30:39.501Z [INFO]: {"backendDuration": 0}
+                                 ## Starting Frontend Build
                                  # Starting phase: preBuild
                                  # Executing command: corepack enable
-2025-10-30T02:16:11.095Z [INFO]: # Executing command: corepack prepare pnpm@latest --activate
-2025-10-30T02:16:11.522Z [INFO]: Preparing pnpm@latest for immediate activation...
-2025-10-30T02:16:12.016Z [INFO]: # Executing command: echo "Node version: $(node -v 2>/dev/null || true)"
-2025-10-30T02:16:12.021Z [INFO]: Node version: v22.18.0
-2025-10-30T02:16:12.021Z [INFO]: # Executing command: echo "NPM version:  $(npm -v  2>/dev/null || true)"
-2025-10-30T02:16:15.993Z [INFO]: NPM version:  10.9.3
-2025-10-30T02:16:15.998Z [INFO]: # Executing command: echo "pnpm version: $(pnpm -v 2>/dev/null || true)"
-2025-10-30T02:16:16.648Z [INFO]: pnpm version: 10.20.0
-2025-10-30T02:16:16.649Z [INFO]: # Executing command: [ -n "$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" ] || { echo "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"; exit 1; }
+2025-10-30T02:30:41.500Z [INFO]: # Executing command: corepack prepare pnpm@latest --activate
+2025-10-30T02:30:42.025Z [INFO]: Preparing pnpm@latest for immediate activation...
+2025-10-30T02:30:42.553Z [INFO]: # Executing command: echo "Node version: $(node -v 2>/dev/null || true)"
+2025-10-30T02:30:42.558Z [INFO]: Node version: v22.18.0
+2025-10-30T02:30:42.558Z [INFO]: # Executing command: echo "NPM version:  $(npm -v  2>/dev/null || true)"
+2025-10-30T02:30:46.423Z [INFO]: NPM version:  10.9.3
+2025-10-30T02:30:46.427Z [INFO]: # Executing command: echo "pnpm version: $(pnpm -v 2>/dev/null || true)"
+2025-10-30T02:30:47.135Z [INFO]: pnpm version: 10.20.0
+2025-10-30T02:30:47.135Z [INFO]: # Executing command: [ -n "$NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" ] || { echo "Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"; exit 1; }
                                  # Executing command: [ -n "$CLERK_SECRET_KEY" ] || { echo "Missing CLERK_SECRET_KEY"; exit 1; }
                                  # Executing command: [ -n "$STRIPE_SECRET_KEY" ] || { echo "Missing STRIPE_SECRET_KEY"; exit 1; }
                                  # Executing command: [ -n "$DATABASE_URL" ] || { echo "Missing DATABASE_URL"; exit 1; }
                                  # Executing command: pnpm config set ignore-scripts false
-2025-10-30T02:16:16.937Z [INFO]: # Executing command: pnpm install
-2025-10-30T02:16:17.393Z [INFO]: Recreating /codebuild/output/src3041920650/src/07cares/node_modules
-2025-10-30T02:16:22.711Z [INFO]: Lockfile is up to date, resolution step is skipped
-2025-10-30T02:16:22.764Z [INFO]: Progress: resolved 1, reused 0, downloaded 0, added 0
-2025-10-30T02:16:22.852Z [INFO]: Packages: +630
+2025-10-30T02:30:47.445Z [INFO]: # Executing command: pnpm install
+2025-10-30T02:30:47.885Z [INFO]: Recreating /codebuild/output/src3786882305/src/07cares/node_modules
+2025-10-30T02:30:53.481Z [INFO]: Lockfile is up to date, resolution step is skipped
+2025-10-30T02:30:53.534Z [INFO]: Progress: resolved 1, reused 0, downloaded 0, added 0
+2025-10-30T02:30:53.601Z [INFO]: Packages: +630
                                  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-2025-10-30T02:16:23.774Z [INFO]: Progress: resolved 630, reused 0, downloaded 136, added 133
-2025-10-30T02:16:24.775Z [INFO]: Progress: resolved 630, reused 0, downloaded 163, added 151
-2025-10-30T02:16:25.775Z [INFO]: Progress: resolved 630, reused 0, downloaded 176, added 155
-2025-10-30T02:16:26.786Z [INFO]: Progress: resolved 630, reused 0, downloaded 242, added 178
-2025-10-30T02:16:27.785Z [INFO]: Progress: resolved 630, reused 0, downloaded 336, added 246
-2025-10-30T02:16:28.785Z [INFO]: Progress: resolved 630, reused 0, downloaded 563, added 546
-2025-10-30T02:16:29.174Z [INFO]: Progress: resolved 630, reused 0, downloaded 630, added 630, done
-2025-10-30T02:16:29.543Z [INFO]: dependencies:
+2025-10-30T02:30:54.535Z [INFO]: Progress: resolved 630, reused 0, downloaded 128, added 105
+2025-10-30T02:30:55.535Z [INFO]: Progress: resolved 630, reused 0, downloaded 162, added 127
+2025-10-30T02:30:56.535Z [INFO]: Progress: resolved 630, reused 0, downloaded 169, added 131
+2025-10-30T02:30:57.535Z [INFO]: Progress: resolved 630, reused 0, downloaded 229, added 171
+2025-10-30T02:30:58.535Z [INFO]: Progress: resolved 630, reused 0, downloaded 319, added 256
+2025-10-30T02:30:59.536Z [INFO]: Progress: resolved 630, reused 0, downloaded 524, added 479
+2025-10-30T02:31:00.173Z [INFO]: Progress: resolved 630, reused 0, downloaded 630, added 630, done
+2025-10-30T02:31:00.569Z [INFO]: dependencies:
                                  + @aws-sdk/client-secrets-manager 3.919.0
                                  + @clerk/nextjs 6.34.0
                                  + @prisma/client 6.18.0
@@ -101,34 +102,44 @@
                                  │   to run scripts.                                                            │
                                  │                                                                              │
                                  ╰──────────────────────────────────────────────────────────────────────────────╯
-2025-10-30T02:16:29.578Z [INFO]: Done in 12.5s using pnpm v10.20.0
-2025-10-30T02:16:29.613Z [INFO]: # Executing command: pnpm dlx prisma generate
-2025-10-30T02:16:30.848Z [WARNING]: Progress: resolved 1, reused 0, downloaded 0, added 0
-2025-10-30T02:16:31.925Z [WARNING]: Progress: resolved 31, reused 0, downloaded 21, added 0
-2025-10-30T02:16:32.395Z [WARNING]: Packages: +33
+2025-10-30T02:31:00.610Z [INFO]: Done in 13.1s using pnpm v10.20.0
+2025-10-30T02:31:00.644Z [INFO]: # Executing command: pnpm dlx prisma generate
+2025-10-30T02:31:01.896Z [WARNING]: Progress: resolved 1, reused 0, downloaded 0, added 0
+2025-10-30T02:31:02.896Z [WARNING]: Progress: resolved 30, reused 0, downloaded 19, added 0
+2025-10-30T02:31:03.560Z [WARNING]: Packages: +33
                                     +++++++++++++++++++++++++++++++++
-2025-10-30T02:16:32.484Z [WARNING]: Progress: resolved 33, reused 0, downloaded 33, added 33, done
-2025-10-30T02:16:32.514Z [WARNING]: .../prisma@6.18.0/node_modules/prisma preinstall$ node scripts/preinstall-entry.js
-2025-10-30T02:16:32.680Z [WARNING]: .../prisma@6.18.0/node_modules/prisma preinstall: Done
-2025-10-30T02:16:34.071Z [WARNING]: warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+2025-10-30T02:31:03.684Z [WARNING]: Progress: resolved 33, reused 0, downloaded 33, added 33, done
+2025-10-30T02:31:03.714Z [WARNING]: .../prisma@6.18.0/node_modules/prisma preinstall$ node scripts/preinstall-entry.js
+2025-10-30T02:31:03.942Z [WARNING]: .../prisma@6.18.0/node_modules/prisma preinstall: Done
+2025-10-30T02:31:05.344Z [WARNING]: warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
                                     For more information, see: https://pris.ly/prisma-config
-2025-10-30T02:16:34.593Z [INFO]: Prisma schema loaded from prisma/schema.prisma
-2025-10-30T02:16:34.931Z [INFO]: ✔ Generated Prisma Client (v6.18.0) to ./node_modules/.pnpm/@prisma+client@6.18.0_prisma@6.18.0_magicast@0.3.5_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 164ms
+2025-10-30T02:31:05.897Z [INFO]: Prisma schema loaded from prisma/schema.prisma
+2025-10-30T02:31:06.225Z [INFO]: ✔ Generated Prisma Client (v6.18.0) to ./node_modules/.pnpm/@prisma+client@6.18.0_prisma@6.18.0_magicast@0.3.5_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client in 145ms
                                  Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
                                  Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
-2025-10-30T02:16:34.985Z [INFO]: # Completed phase: preBuild
+2025-10-30T02:31:06.280Z [INFO]: # Completed phase: preBuild
                                  # Starting phase: build
                                  # Executing command: pnpm build
-2025-10-30T02:16:35.288Z [INFO]: > 07cares@0.1.0 build /codebuild/output/src3041920650/src/07cares
+2025-10-30T02:31:06.615Z [INFO]: > 07cares@0.1.0 build /codebuild/output/src3786882305/src/07cares
                                  > next build
-2025-10-30T02:16:35.868Z [WARNING]: 
-2025-10-30T02:16:35.868Z [WARNING]: > Build error occurred
-2025-10-30T02:16:35.871Z [WARNING]: Error: > `pages` and `app` directories should be under the same folder
+2025-10-30T02:31:07.258Z [INFO]: ▲ Next.js 16.0.0 (Turbopack)
+2025-10-30T02:31:07.263Z [INFO]: 
+2025-10-30T02:31:07.308Z [WARNING]: ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+2025-10-30T02:31:07.343Z [INFO]: Creating an optimized production build ...
+2025-10-30T02:31:19.745Z [WARNING]: 
+2025-10-30T02:31:19.750Z [WARNING]: > Build error occurred
+                                    Error: Turbopack build failed with 2 errors:
+                                    ./
+                                    App Router and Pages Router both match path: /api/env
+                                    Next.js does not support having both App Router and Pages Router routes matching the same path. Please remove one of the conflicting routes.
+                                    ./
+                                    App Router and Pages Router both match path: /api/health
+                                    Next.js does not support having both App Router and Pages Router routes matching the same path. Please remove one of the conflicting routes.
                                     at ignore-listed frames
-2025-10-30T02:16:35.892Z [INFO]: ELIFECYCLE  Command failed with exit code 1.
-2025-10-30T02:16:35.902Z [ERROR]: !!! Build failed
-2025-10-30T02:16:35.902Z [INFO]: Please read more about Amplify Hosting's support for SSR frameworks to find if your build failure is related to an unsupported feature: https://docs.aws.amazon.com/amplify/latest/userguide/amplify-ssr-framework-support.html. You may also find this troubleshooting guide useful: https://docs.aws.amazon.com/amplify/latest/userguide/troubleshooting-ssr-deployment.html
-2025-10-30T02:16:35.903Z [ERROR]: !!! Error: Command failed with exit code 1
-2025-10-30T02:16:35.903Z [INFO]: # Starting environment caching...
-2025-10-30T02:16:35.903Z [INFO]: # Environment caching completed
+2025-10-30T02:31:19.846Z [INFO]: ELIFECYCLE  Command failed with exit code 1.
+2025-10-30T02:31:19.860Z [ERROR]: !!! Build failed
+2025-10-30T02:31:19.860Z [INFO]: Please read more about Amplify Hosting's support for SSR frameworks to find if your build failure is related to an unsupported feature: https://docs.aws.amazon.com/amplify/latest/userguide/amplify-ssr-framework-support.html. You may also find this troubleshooting guide useful: https://docs.aws.amazon.com/amplify/latest/userguide/troubleshooting-ssr-deployment.html
+2025-10-30T02:31:19.860Z [ERROR]: !!! Error: Command failed with exit code 1
+2025-10-30T02:31:19.860Z [INFO]: # Starting environment caching...
+2025-10-30T02:31:19.861Z [INFO]: # Environment caching completed
 
