@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "NEXT_TURBOPACK=0 next build",
+    "build": "next build",
     "start": "next start",
     "lint": "node -e \"console.log('lint skipped')\"",
     "typecheck": "tsc --noEmit",
@@ -22,11 +22,12 @@
     "seed": "prisma db seed"
   },
   "dependencies": {
-    "@stripe/react-stripe-js": "^5.3.0",
-    "@stripe/stripe-js": "^8.2.0",
     "@aws-sdk/client-secrets-manager": "^3.919.0",
+    "@aws-sdk/client-ssm": "^3.919.0",
     "@clerk/nextjs": "^6.34.0",
     "@prisma/client": "^6.18.0",
+    "@stripe/react-stripe-js": "^5.3.0",
+    "@stripe/stripe-js": "^8.2.0",
     "@t3-oss/env-nextjs": "^0.13.8",
     "next": "^16.0.0",
     "pusher": "^5.2.0",
@@ -59,8 +60,3 @@
   },
   "license": "UNLICENSED"
 }
-  "dependencies": {
-    "@aws-sdk/client-ssm": "^3.919.0"
-  }
-}
-
